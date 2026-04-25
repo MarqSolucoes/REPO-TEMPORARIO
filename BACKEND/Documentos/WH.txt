@@ -1,0 +1,88 @@
+OK - Resumo ETO ajustar conforme Planilha Excel Aba "Modelo16" .
+OK - Retirar no item financeiro o item "Resumo Financeiro"
+OK - Compras Possibilidade de ter uma aprovador automático. 
+OK - Fluxo de caixa.
+OK - PDF
+OK - Foto dos dados congelados
+OK - Soma parcial quando tiver mais de um mês
+OK - Engenheiro so pode visualizar sua obra.
+OK - Incluir mais de 1 engenheiro responsável por obra
+OK - Incluir um campo "CustoDaObra" na tabela de obra e fazer uma função para calcular o valor sempre que um pedido de compra ou PI é realizado
+OK - Incluir alerta de obra bloqueada e saldo negativo para o aprovador
+OK - Na tela de “Ajuste de ETO” 
+	OK – Arrumar modal ajuste de ETO
+	OK - Travar as informações de entra e saída – Ficamos de verificar se filtro de período me mostrar valores congelados
+	OK - Incluir filtro de obra bloqueada / obra ativa
+OK - Ao alterar o valor do item P000026.A no fluxo de caixa não está refletindo na agenda
+OK - No relatorio de ETO da obra, alterar o nome do arquivo PDF
+OK - Quando houver um cancelamento de saldo, revisar se o mesmo está voltando para o ETO
+OK - No fluxo de caixa, colocar os labels "Total Realizado" e "Total Previsto"
+OK - No fluxo de caixa, colocar uma linha horizontal no ultimo dia do mes
+OK - No fluxo de caixa colocar o mês e ano no cabeçalho
+OK - Na conciliação de nota fiscal, o campo "Saldo Disponível" está somando "Valor Total Pedido" com "Saldo Cancelado". O correto é "Valor Total do Pedido" - conciliações
+OK - No download do pdf de pedido de compra
+	OK - Arrumar a numeração do campo item
+	OK - Arrumar a condição de pagamento
+OK - Condição de pagamento não aparece no pedido da ordem de compra
+OK - Na tela de “Ajuste de ETO” 
+	OK – Arrumar modal ajuste de ETO
+OK - Fiz uma conciliação e não coloquei valor e conciliação foi feita
+OK - Ajustar toda a tela de detalhe e informações de obra
+OK - Compras A possibilidade de se emitir + de 1 Ordem de compra para o mesmo produto divisão por quantidade
+OK - Compras Revisão de uma ordem de compra emitida.
+OK - Na aba "Pedidos Finalizados" arrumar a listagem de obra para aparecer todas as obras
+OK - Na solicitação de compra informar quem foi o usuário solicitante
+OK - No cadastro do cliente incluir um campo número chamado "dias de pagamento" que será a condição de pagamento
+OK - Na abertura da obra puxar a condição de pagamento do cliente e permitir edição
+OK - Na abertura de obra, na inserção de uma medição colocar a data de recebimento, que será calculada da seguinte forma: data de faturamento + condição de pagamento. 
+OK - PI Precisamos incluir Rateio em 2 DEF distintos
+
+OK - Incluir o Diretor Aprovador – Aprovador Pedidos
+OK - Incluir Engenheiros Aprovador -Aprovar Solicitações
+OK - Tela Inicial para o engenheiro -Aprovações pendentes de Solicitações.
+OK - Incluir filtros na tela de pedido / solicitações.
+OK - Excluir Aba Solicitações canceladas / finalizadas
+OK - Excluir Aba “para validação”
+OK - Alterar aba para aba unificada de solicitação / pedidos finalizados e cancelados
+OK - Incluir filtros na ABA unificada (obras / Data / Material/Fornecedor)
+OK - No documento PDF de Pedido de compras
+	OK - Ajustar Sequência numérica dos itens
+	OK - Incluir Condição de pagamento
+	OK - Incluir Campo de Observações.
+OK - Conciliação Incluir datas e valores parciais
+	OK - Esta conciliando valores zerados
+	OK - Em caso de cancelamento de saldo o mesmo tem que excluir da OC.
+OK - Emitir Pedidos para mesmo item com fornecedores distintos
+OK - Editar informações após as aprovações (Fornecedor / Condição de pagamento / Opção de entrega (endereço da obra em VERMELHO ou Outro local ou Retirada de material).
+OK - Sistema Calcular dias de pagamento previsto após emissão de Pedido de compra apartir da data de entrega prevista.
+OK - Incluir filtro de material comprado (Data – Fornecedor – Pedido de compra _ Valor Unitário)
+
+
+-- Ajustes faltantes
+------------------------------------------------------------------------------------------------------
+
+OK PARCIAL - Pedidos de compra / PI / Conciliação – Somente serão incluídas na rotina do financeiro após aceite do Rogerio
+OK PARCIAL - Incluir modulo para emissão de Solicitação de compra e Ordem de compra para serviços.
+	OK - No PDF, colocar a observação como descrição do item (apenas para ordens de serviço).
+	OK - Na conciliação, informar apenas a execução do serviço, indo para o financeiro para informar impostos
+	OK - Adquar no financeiro a inserção dos impostos na tela "Notas Fiscais"
+
+- Na abertura da obra alterar "data prevista" para "data faturamento"
+- No financeiro, ajustar para a previsão a data de recebiento da obra e não faturamento
+- Arrumar nos PDFs o cifrão $$$$
+- Financeiro - Agenda - incluir alteração de data
+- Revisar entrada de dados para todos os relatórios
+- RH
+- DEF
+
+
+
+
+
+
+
+
+Número inicial da obra: 42000
+Número inicial PI: 63000
+Número inicial OC: 97000
+

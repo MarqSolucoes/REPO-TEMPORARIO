@@ -1,0 +1,19 @@
+@import '../../../styles/app';
+
+.fluxoCaixaConsolidado-page {
+
+    p {
+      margin-bottom: 1.4rem;
+    }
+
+    .table-TotalP{
+      background-color: green !important;
+      color: white;
+    }
+
+    .table-TotalR{
+      background-color: blue !important;
+      color: white;
+    }
+
+}

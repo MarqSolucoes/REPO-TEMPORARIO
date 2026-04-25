@@ -1,0 +1,327 @@
+/**
+ * ESTILO GLOBAL DE TABELAS DO SISTEMA — ÚNICO PADRÃO
+ *
+ * Uso esperado:
+ *
+ *   <div class="table-card">                      <!-- ou .table-card--fluid em modal -->
+ *     <table class="estilo-tabela tabela-identidade">
+ *       <thead>
+ *         <tr>
+ *           <th class="estilo-cabecalho texto-centro">Coluna</th>
+ *         </tr>
+ *       </thead>
+ *       <tbody>
+ *         <tr v-for="(row, index) in lista" :key="row.id || index">
+ *           <td class="estilo-celula texto-centro">{{ row.campo }}</td>
+ *           <!-- Inputs inline em células (edição in-place) -->
+ *           <td class="estilo-celula texto-centro">
+ *             <div class="input-table input-table--money">
+ *               <Money v-model="row.valor" v-bind="money" />
+ *             </div>
+ *           </td>
+ *           <td class="estilo-celula texto-centro">
+ *             <div class="input-table input-table--date">
+ *               <DatePickerMask v-model="row.data" ... />
+ *             </div>
+ *           </td>
+ *         </tr>
+ *         <tr v-if="lista.length === 0">
+ *           <td class="estilo-celula texto-centro" colspan="N">Nenhum registro encontrado</td>
+ *         </tr>
+ *       </tbody>
+ *     </table>
+ *   </div>
+ *
+ * Variantes:
+ *   .tabela-identidade  — cabeçalho escuro e hover sutil (padrão para listagens)
+ *   .tabela-conciliacao — colunas de largura fixa (.col-sm / .col-md)
+ *
+ * Variantes do wrapper:
+ *   .table-card          — altura máxima 70vh com scroll vertical interno
+ *                          e header sticky (thead gruda no topo durante scroll).
+ *                          SEM scroll horizontal: o texto das células quebra
+ *                          em mais de uma linha quando necessário.
+ *   .table-card--fluid   — sem altura máxima (usar em modais/contêineres já bounded).
+ *                          Também sem scroll horizontal.
+ *   .table-card--fit     — alias histórico de .table-card. Além de não ter scroll
+ *                          horizontal, força table-layout: fixed (colunas de mesma
+ *                          largura, sem redistribuição automática). Mantido para
+ *                          retrocompatibilidade; novas tabelas podem usar direto
+ *                          .table-card ou .table-card--fluid.
+ *   .table-card--scroll-x — opt-in explícito para RESTAURAR o scroll horizontal.
+ *                          Combine com .table-card ou .table-card--fluid em
+ *                          tabelas com muitas colunas onde a quebra de linha
+ *                          compromete a leitura (ex.: relatórios financeiros).
+ *
+ * Utilitários:
+ *   .texto-centro  — text-align: center
+ *   .nowrap        — força linha única em células pontuais (códigos, datas, etc.)
+ *   .wrap          — alias histórico: células já quebram linha por padrão
+ *
+ * Linha de totais:
+ *   <tr class="linha-totais"><td class="total-cell">...</td></tr>
+ *
+ * IMPORTANTE: menus de ações em linhas de tabela devem usar o componente
+ * <ModalAcoes> (components/ModalAcoes/ModalAcoes.vue) e NÃO b-dropdown.
+ * O modal vive no <body>, então é imune ao overflow do .table-card.
+ */
+
+/* ====== WRAPPER ======
+   .table-card usa altura máxima 70vh + scroll VERTICAL interno.
+   SEM scroll horizontal — o cliente pediu que nenhuma tabela padrão role
+   lateralmente. A tabela interna ocupa 100% da largura e o texto das células
+   quebra em mais linhas quando o conteúdo é mais largo que a coluna.
+   Benefícios:
+     - Evita que tabelas com muitas linhas empurrem o footer/página pra baixo
+     - Header sticky (thead th position: sticky) mantém as colunas visíveis
+       enquanto o usuário rola verticalmente.
+   Use .table-card--fluid em modais ou contêineres que JÁ limitam a altura —
+   ele não tem max-height, fica solto no contêiner-pai. */
+.table-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-card--fluid {
+  overflow-x: hidden;
+  overflow-y: visible;
+  max-width: 100%;
+}
+
+/* Variante "fit": alias histórico que, além de desligar o scroll horizontal
+   (que já é o default agora), força table-layout: fixed — as colunas ficam
+   com larguras iguais e não se ajustam ao conteúdo. Mantida para não quebrar
+   chamadas existentes; em código novo prefira .table-card ou .table-card--fluid. */
+.table-card--fit {
+  overflow-x: hidden;
+}
+
+.table-card--fit .estilo-tabela {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.table-card--fit .estilo-tabela td,
+.table-card--fit .estilo-tabela th {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Variante "scroll-x": opt-in explícito para tabelas que DEVEM ter scroll
+   horizontal (comportamento anterior ao cliente pedir "sem scroll lateral").
+   Usado em páginas onde a tabela tem muitas colunas e seria inutilizável se
+   as células quebrassem linha — ex.: Relatório de Agenda, Entradas,
+   Faturamento, Fluxo de Caixa Consolidado.
+
+   Uso:
+     <div class="table-card table-card--scroll-x"> ... </div>
+     <div class="table-card table-card--fluid table-card--scroll-x"> ... </div>
+
+   Restaura os três pilares do comportamento antigo:
+     1. overflow-x: auto no wrapper
+     2. tabela cresce além da largura do container (width: max-content)
+     3. células não quebram linha (white-space: nowrap)
+
+   Combine livremente com --fluid (modais) ou com o .table-card padrão. */
+.table-card--scroll-x {
+  overflow-x: auto;
+}
+
+.table-card--scroll-x .estilo-tabela {
+  width: max-content;
+  min-width: 100%;
+  table-layout: auto;
+}
+
+.table-card--scroll-x .estilo-tabela td,
+.table-card--scroll-x .estilo-tabela th {
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow-wrap: normal;
+}
+
+/* Scrollbar styling — agora só aplicável ao scroll VERTICAL, já que o
+   horizontal foi desligado. O height: 8px vira inócuo e fica como
+   referência caso a regra de overflow-x seja reativada no futuro. */
+.table-card::-webkit-scrollbar,
+.table-card--fluid::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.table-card::-webkit-scrollbar-track,
+.table-card--fluid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+
+.table-card::-webkit-scrollbar-thumb,
+.table-card--fluid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+
+.table-card::-webkit-scrollbar-thumb:hover,
+.table-card--fluid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.table-card::-webkit-scrollbar-corner,
+.table-card--fluid::-webkit-scrollbar-corner {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ====== TABELA BASE ======
+   width: 100% garante que a tabela ocupe todo o espaço disponível do wrapper
+   (sem transbordar lateralmente). table-layout: auto deixa o browser
+   distribuir colunas conforme o conteúdo — cabeçalhos/valores curtos ficam
+   estreitos e colunas de texto livre recebem mais espaço. Combinado com
+   white-space: normal nas células, a tabela NUNCA gera scroll horizontal. */
+.estilo-tabela {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.estilo-tabela thead th {
+  background: #0D0E20; /* era rgba(0, 0, 0, 0.45) — cor sólida equivalente sobre o fundo do tema */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #fff;
+  /* Header fixo durante o scroll vertical interno do .table-card */
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.estilo-tabela tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.estilo-tabela tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.estilo-tabela td,
+.estilo-tabela th {
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  padding: 10px 12px;
+  vertical-align: middle !important;
+  /* Quebra de linha padrão — garante que células não empurrem a largura
+     da tabela e causem scroll horizontal. Use a classe utilitária .nowrap
+     em células pontuais (ex.: códigos, datas curtas) que devem permanecer
+     em linha única. */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ====== UTILITÁRIOS DE CÉLULA ====== */
+.texto-centro {
+  text-align: center;
+}
+
+/* Células envolvem linhas por padrão; .wrap é mantido como no-op para não
+   quebrar chamadas antigas. */
+.wrap {
+  white-space: normal;
+}
+
+/* Use .nowrap em células pontuais onde a quebra de linha atrapalha (códigos
+   curtos, números, datas sem hora, etc.). Por padrão, todas as células
+   agora aceitam quebra de linha para evitar scroll horizontal na tabela. */
+.nowrap {
+  white-space: nowrap;
+}
+
+/* ====== VARIANTE "IDENTIDADE" ====== */
+.tabela-identidade thead th {
+  /* era rgba(0, 0, 0, 0.55) — cor sólida equivalente sobre o fundo do tema */
+  background: #0A0B1A !important;
+}
+
+.tabela-identidade tbody tr:hover {
+  filter: brightness(1.06);
+  transition: filter 0.15s ease;
+}
+
+/* ====== VARIANTE "CONCILIACAO" ====== */
+.tabela-conciliacao .col-sm {
+  width: 100px;
+}
+
+.tabela-conciliacao .col-md {
+  width: 140px;
+}
+
+.tabela-conciliacao .col-desc {
+  width: auto;
+}
+
+/* ====================================================================
+   INPUTS INLINE (wrapper opcional para limitar largura em célula)
+   Use `class="input-table"` no <div> que envolve Money/DatePicker/Multiselect
+   para limitar a largura em células. Os componentes usam seus estilos globais.
+   ==================================================================== */
+.input-table {
+  display: inline-block;
+  vertical-align: middle;
+  width: 120px;
+  max-width: 100%;
+}
+
+.input-table--money {
+  width: 110px;
+}
+
+.input-table--date {
+  width: 130px;
+}
+
+.input-table--select {
+  width: 180px;
+}
+
+/* ====== LINHA DE TOTAIS ====== */
+.estilo-tabela tbody tr.linha-totais,
+.estilo-tabela tbody tr.linha-totais:hover {
+  background-color: rgba(0, 0, 0, 0.55) !important;
+  filter: none;
+}
+
+.estilo-tabela tbody tr.linha-totais td.total-cell,
+.estilo-tabela tbody tr.linha-totais td {
+  background-color: rgba(0, 0, 0, 0.55) !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 1199.98px) {
+  .estilo-tabela td,
+  .estilo-tabela th {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .estilo-tabela td,
+  .estilo-tabela th {
+    padding: 8px;
+    font-size: 12px;
+  }
+}

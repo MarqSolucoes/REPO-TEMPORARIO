@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WHEngenharia.Dominio.Modelos
+{
+    public class CondicaoPagamentoDTO
+    {
+        public Int64 Id { get; set; }
+        public string Descricao { get; set; }
+        public bool Ativo { get; set; }
+        public Int64 IdUsuarioCadastro { get; set; }
+        public DateTime DataCadastro { get; set; }
+        public Int64 IdUsuarioAlteracao { get; set; }
+        public DateTime DataUltimaAlteracao { get; set; }
+
+        public List<CondicaoPagamento_ParcelasDTO> Parcelas { get; set; }
+    }
+}

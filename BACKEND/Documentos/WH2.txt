@@ -1,0 +1,35 @@
+Resumo dos itens conversados e pendentes.
+
+- Geral
+	OK Evitar de abrir novas abas
+
+- Compras.
+OK - Incluir o Diretor Aprovador – Aprovador Pedidos
+	OK - Incluir Engenheiros Aprovador -Aprovar Solicitações
+	OK - Tela Inicial para o engenheiro -Aprovações pendentes de Solicitações.
+	OK - Incluir filtros na tela de pedido / solicitações.
+	OK - Excluir Aba Solicitações canceladas / finalizadas
+	OK - Excluir Aba “para validação”
+	OK - Alterar aba para aba unificada de solicitação / pedidos finalizados e cancelados
+	OK - Incluir filtros na ABA unificada (obras / Data / Material/Fornecedor)
+	OK - No documento PDF de Pedido de compras
+		OK - Ajustar Sequência numérica dos itens
+		OK - Incluir Condição de pagamento
+		OK - Incluir Campo de Observações.
+	OK - Conciliação Incluir datas e valores parciais
+		OK - Esta conciliando valores zerados
+		OK - Em caso de cancelamento de saldo o mesmo tem que excluir da OC.
+	OK - Emitir Pedidos para mesmo item com fornecedores distintos
+	OK - Editar informações após as aprovações (Fornecedor / Condição de pagamento / Opção de entrega (endereço da obra em VERMELHO ou Outro local ou Retirada de material).
+	OK - Sistema Calcular dias de pagamento previsto após emissão de Pedido de compra apartir da data de entrega prevista.
+	OK - Incluir filtro de material comprado (Data – Fornecedor – Pedido de compra _ Valor Unitário)
+
+ 
+
+- Financeiro
+	OK - Pedidos de compra / PI / Conciliação – Somente serão incluídas na rotina do financeiro após aceite do Rogerio
+
+- Obras
+	Cadastro do cliente incluir condição de pagamento
+	Cadastro de Obras incluir Data de Faturamento – Data de recebimento em função da condição de pagamento do cliente
+	Relatorio de conta corrente – Quando gerar pdf nome deve ser Numero da obra+cc

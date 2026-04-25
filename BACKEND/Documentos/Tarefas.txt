@@ -1,0 +1,37 @@
+WH ENGENHARIA
+
+COMPRAS
+- Na conciliação, retirar o campo de inserção de CNPJ. Ao invés disso, será disponibilizado um multiselect com todos os fornecedores que contém o mesmo CNPJ raiz (número até a barra).
+- Criar uma tela para que seja possível ver todas as informações de todas as obras. Será usado como base a tela de pedidos finalizados. Incluir a opção de clonar o pedido melhorando a edição de quantidade e valor para ficar mais dinâmico. Acrescentar  opção de visualizar o ETO da obra e resumo de ETO de todas as obras
+- Na tela de pedidos finalizados o botão de limpar filtro não está funcionando
+- No PDF do pedido de compra para serviço, perguntar se é para colocar a data do pagamento ou a frase "Pagamento conforme mdeição"
+- Para solicitações de serviço:
+	- Colocar no modal de abertura a opção de informar fornecedor e datas com valores para pagamento. Caso isso ocorra, então não é necessário ir para cotação, pode ir para aprovação direto. Caso não informado, então seguir fluxo padrão
+	- Na cotação, inserir a condição de pagamento "Manual", onde abrirá opção de seleção de datas e valores para pagamento
+- Na tela de cotação colocar um campo de frete e imposto para cada fornecedor. Verificar se esse valor está sendo exibido nos PDFs
+- Quando um pedido está feito porém sem nenhuma conciliação, existe a possibilidade de voltar para o status "Aprovado pela Direção" e ser possível alterar quantidade e valor. Tem que remover as previsões e depois adicionar as previsões
+
+- Nas pesquisas priorizar o valor que "começa com" ao invés de "contém"
+8 - Criar uma tela de configurações do sistema para configurar o valor máximo limite para alteração do valor de um pedido após efetuado
+	- Criar um campo no banco de dados com o valor original do pedido
+	- Criar uma tabela para guardar todas as alterações com justificativa
+	- Criar uma tela para visualizar todas as alterações e justificativas
+	- Colocar a opção de alterar valor do pedido na conciliação 
+
+
+FINANCEIRO
+- No cadastro de um novo pedido interno recorrente, colocar o nome do def no campo de def
+- A tela de agenda na verdade é o "Relatório de DEF" que vai para a aba "Relatórios". Copiar essa tela, retirar os totais por def, ordenar pela data porém totalizar no final
+- Na agenda, quanto editar a data e def, caso não tenha informado o def então não muda
+- Na agenda, mudar a data pela propria linha ao invés de abrir o modal
+- Na tela de pedido interno, trocar a data de solicitação pela data de pagamento
+- No cadastro de um novo pedido interno, ao informar o dia, verificar se esse dia ainda está disponível no mês corrente
+- Colocar cadastro de novos DEFs
+- Na PI fixa, colocar a opção de pagar para colaborador ou fornecedor
+- Criar os DEFs para imposto do assistência medica 05.04
+- Na agenda, colocar a opção de informar pagamento contendo: upload da NF, valor da nota, valor imposto
+- Na agenda, editar numero da nota e arquivo da nota
+- Na criação da nova PI, possibilitar:
+	- Criação para um fornecedor, com uma obra e varios vencimentos
+	- Criação para um fornecedor, com varias obras e um vencimento
+- Na conciliação, não está refletindo o número da nota fiscal no financeiro (agenda e fluxo de caixa)
