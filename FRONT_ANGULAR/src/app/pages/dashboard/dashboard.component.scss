@@ -1,0 +1,69 @@
+.dashboard-page {
+  padding: 0;
+}
+
+.afm-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  &__eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.25rem 0;
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 0;
+  }
+
+  &__pill {
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    min-width: 70px;
+
+    span {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    small {
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+  }
+}
+
+.afm-section-card {
+  background: #fff;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.afm-empty-state {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  color: #999;
+
+  i {
+    font-size: 2rem;
+  }
+}
