@@ -1,0 +1,32 @@
+<div class="def-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">DEF</h1>
+  <app-widget>
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Abrir Pedido Interno</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of defs; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+            <td class="estilo-celula">{{ row.descricao }}</td>
+            <td class="estilo-celula texto-centro">{{ row.podeAbrirPedidoInterno ? 'Sim' : 'Não' }}</td>
+            <td class="estilo-celula texto-centro">
+              <button *ngIf="row.podeAbrirPedidoInterno" class="btn btn-sm btn-outline-danger" (click)="habilitarDesabilitarPedidoInterno(row.id, false)">Desabilitar PI</button>
+              <button *ngIf="!row.podeAbrirPedidoInterno" class="btn btn-sm btn-outline-success" (click)="habilitarDesabilitarPedidoInterno(row.id, true)">Habilitar PI</button>
+            </td>
+          </tr>
+          <tr *ngIf="!defs || defs.length === 0">
+            <td class="estilo-celula texto-centro" colspan="4">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+</div>
