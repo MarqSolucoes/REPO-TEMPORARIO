@@ -1,0 +1,29 @@
+<div class="conciliacao-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Conciliação NF</h1>
+  <app-widget>
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho">Número NF</th>
+            <th class="estilo-cabecalho">Fornecedor</th>
+            <th class="estilo-cabecalho texto-centro">Valor</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of itens; trackBy: trackByIndex">
+            <td class="estilo-celula">{{ row.numeroNF }}</td>
+            <td class="estilo-celula">{{ row.fornecedor }}</td>
+            <td class="estilo-celula texto-centro">{{ row.valor }}</td>
+            <td class="estilo-celula texto-centro">{{ row.status }}</td>
+          </tr>
+          <tr *ngIf="!itens || itens.length === 0">
+            <td class="estilo-celula texto-centro" colspan="4">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+</div>

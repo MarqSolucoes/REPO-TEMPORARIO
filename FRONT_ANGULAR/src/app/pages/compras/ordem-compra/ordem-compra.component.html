@@ -1,0 +1,31 @@
+<div class="ordemCompra-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Ordens de Compra - {{ tag }}</h1>
+  <app-widget>
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho">Número</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of ordens; trackBy: trackByIndex">
+            <td class="estilo-celula">{{ row.numero }}</td>
+            <td class="estilo-celula">{{ row.descricao }}</td>
+            <td class="estilo-celula texto-centro">{{ row.status }}</td>
+            <td class="estilo-celula texto-centro">
+              <button class="btn btn-sm btn-outline-info" (click)="verCotacao(row.id)">Ver Cotação</button>
+            </td>
+          </tr>
+          <tr *ngIf="!ordens || ordens.length === 0">
+            <td class="estilo-celula texto-centro" colspan="4">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+</div>

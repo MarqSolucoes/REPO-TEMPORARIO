@@ -1,0 +1,15 @@
+<div class="cotacao-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Cotação</h1>
+  <div class="mb-3">
+    <button class="btn btn-outline-secondary" (click)="voltar()">← Voltar</button>
+  </div>
+  <app-widget *ngIf="cotacao">
+    <p><strong>Número:</strong> {{ cotacao.numero }}</p>
+    <p><strong>Descrição:</strong> {{ cotacao.descricao }}</p>
+    <p><strong>Status:</strong> {{ cotacao.status }}</p>
+  </app-widget>
+  <app-widget *ngIf="!cotacao && !isLoading">
+    <p>Nenhuma cotação encontrada para o ID {{ id }}.</p>
+  </app-widget>
+</div>
