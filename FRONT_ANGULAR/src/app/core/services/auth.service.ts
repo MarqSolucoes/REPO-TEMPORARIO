@@ -12,7 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   private decodeJwt(token: string): any {
-    try { return JSON.parse(atob(token.split('.')[1])); } catch { return null; }
+    try {
+      const parts = token.split('.');
+      if (parts.length < 2) return null;
+      return JSON.parse(atob(parts[1]));
+    } catch { return null; }
   }
 
   isAuthenticated(token: string | null): boolean {

@@ -31,7 +31,7 @@ export class ApiService {
 
   put(controller: string, dto: any, cb: (r: any) => void): void {
     this.http.put(`${this.base}/${controller}`, dto).subscribe({
-      next: (data: any) => cb({ status: 201, message: data }),
+      next: (data: any) => cb({ status: 201, message: data, data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
