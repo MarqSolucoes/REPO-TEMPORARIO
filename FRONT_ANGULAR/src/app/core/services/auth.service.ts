@@ -30,7 +30,7 @@ export class AuthService {
     this.isFetching$.next(true);
     this.errorMessage$.next('');
     this.http.post(
-      `${environment.baseURLApi}/auth/token?user=${creds.usuario}&senha=${creds.senha}`,
+      `${environment.baseURLApi}/auth/token?user=${creds.usuario}&password=${creds.senha}`,
       {},
       { responseType: 'text' }
     ).subscribe({

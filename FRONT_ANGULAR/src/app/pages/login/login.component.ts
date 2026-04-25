@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { Subscription } from 'rxjs';
+import { sha256 } from 'js-sha256';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login(): void {
     if (this.usuario && this.senha) {
-      this.auth.loginUser({ usuario: this.usuario, senha: this.senha });
+      this.auth.loginUser({ usuario: this.usuario, senha: sha256(String(this.senha)) });
     }
   }
 }
