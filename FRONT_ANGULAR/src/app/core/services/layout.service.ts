@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
-  sidebarClose$ = new BehaviorSubject<boolean>(true);
+  sidebarClose$ = new BehaviorSubject<boolean>(false);
   sidebarActiveElement$ = new BehaviorSubject<string | null>(null);
 
   switchSidebar(value?: boolean): void {

@@ -7,10 +7,11 @@ import { LayoutService } from '../../../core/services/layout.service';
   standalone: false,
   template: `
     <nav class="app-header d-print-none">
+      <a routerLink="/app/dashboard" class="navbar-brand">WH <strong>Engenharia</strong></a>
       <div class="ml-auto d-flex align-items-center">
         <span (click)="logoutUser()" style="cursor:pointer; padding: 0 16px;">
           {{ user?.nome }}
-          <i class="la la-power-off px-2"></i>
+          <i class="fa fa-power-off px-2"></i>
         </span>
       </div>
     </nav>

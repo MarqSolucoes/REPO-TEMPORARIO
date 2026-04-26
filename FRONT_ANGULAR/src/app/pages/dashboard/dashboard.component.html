@@ -2,100 +2,85 @@
   <app-loader [active]="isLoading"></app-loader>
   <h1 class="page-title">WH Engenharia &nbsp;</h1>
 
-  <app-widget [customHeader]="true" className="estiloWidget">
+  <div class="widget estiloWidget">
 
     <!-- ===================== ROW: Solicitação de Compra / Minhas Solicitações ===================== -->
-    <div class="row mb-3" *ngIf="usuarioDTO != null && usuarioDTO.globalSolicitacaoCompra">
-      <div class="col-md-6 text-center" style="cursor: pointer"
+    <div class="row" *ngIf="usuarioDTO != null && usuarioDTO.globalSolicitacaoCompra">
+      <div class="col-md-6"
         (click)="modalNovoPedidoCompraTipoPedido_Exibir = true">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Solicitação de compra</h5>
-          <br />
-          <span class="glyphicon glyphicon-shopping-cart" style="font-size: 70px"></span>
-        </app-widget>
+          <i class="fa fa-shopping-cart card-icon"></i>
+        </div>
       </div>
-      <div class="col-md-6 text-center" style="cursor: pointer"
+      <div class="col-md-6"
         (click)="abrirModalMinhasSolicitacoes()">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Minhas solicitações</h5>
-          <br />
-          <span class="glyphicon glyphicon-list" style="font-size: 70px; position: relative; display: inline-block;"></span>
-        </app-widget>
+          <i class="fa fa-list card-icon"></i>
+        </div>
       </div>
     </div>
-
-    <br />
 
     <!-- ===================== ROW: Pedido Interno / Meus Pedidos Internos ===================== -->
-    <div class="row mb-3" *ngIf="usuarioDTO != null && usuarioDTO.globalPedidoInterno">
-      <div class="col-md-6 text-center" style="cursor: pointer"
+    <div class="row" *ngIf="usuarioDTO != null && usuarioDTO.globalPedidoInterno">
+      <div class="col-md-6"
         (click)="modalNovoPedidoInterno_Exibir = true">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Pedido Interno</h5>
-          <br />
-          <span class="glyphicon glyphicon-repeat" style="font-size: 70px"></span>
-        </app-widget>
+          <i class="fa fa-repeat card-icon"></i>
+        </div>
       </div>
-      <div class="col-md-6 text-center" style="cursor: pointer"
+      <div class="col-md-6"
         (click)="modalMeusPedidosInternos_Exibir = true">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Meus Pedidos Internos</h5>
-          <br />
-          <span class="glyphicon glyphicon-list" style="font-size: 70px"></span>
-        </app-widget>
+          <i class="fa fa-list card-icon"></i>
+        </div>
       </div>
     </div>
-
-    <br />
 
     <!-- ===================== ROW: Aprovações de Cotação / Notas Fiscais ===================== -->
-    <div class="row mb-3" *ngIf="usuarioDTO != null">
-      <div class="col-md-6 text-center" style="cursor: pointer"
+    <div class="row" *ngIf="usuarioDTO != null">
+      <div class="col-md-6"
         *ngIf="usuarioDTO.globalAprovaCotacao"
         (click)="redirecionaAprovarCotacoes()">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Aprovações de Cotação</h5>
-          <br />
-          <div style="font-size: 90px; color: lime;">{{ modalAprovacaoCotacao_Cotacoes }}</div>
-        </app-widget>
+          <div class="card-count">{{ modalAprovacaoCotacao_Cotacoes }}</div>
+        </div>
       </div>
-      <div class="col-md-6 text-center" style="cursor: pointer"
+      <div class="col-md-6"
         *ngIf="usuarioDTO.globalAprovaNotaFiscal"
         (click)="modalAprovacaoNF_Exibir = true">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Aprovações de Notas Fiscais</h5>
-          <br />
-          <div style="font-size: 90px; color: lime;">{{ modalAprovacaoNF_NotasFiscais.length }}</div>
-        </app-widget>
+          <div class="card-count">{{ modalAprovacaoNF_NotasFiscais.length }}</div>
+        </div>
       </div>
     </div>
-
-    <br />
 
     <!-- ===================== ROW: Aprovações de PI / SC ===================== -->
-    <div class="row mb-3" *ngIf="usuarioDTO != null">
-      <div class="col-md-6 text-center" style="cursor: pointer"
+    <div class="row" *ngIf="usuarioDTO != null">
+      <div class="col-md-6"
         *ngIf="usuarioDTO.globalAprovaCotacao"
         (click)="modalAprovacaoPI_Exibir = true">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Aprovações de PI</h5>
-          <br />
-          <div style="font-size: 90px; color: lime;">{{ pedidosInternosParaAprovacao.length }}</div>
-        </app-widget>
+          <div class="card-count">{{ pedidosInternosParaAprovacao.length }}</div>
+        </div>
       </div>
-      <div class="col-md-6 text-center" style="cursor: pointer"
+      <div class="col-md-6"
         *ngIf="usuarioDTO.globalAprovaCotacao"
         (click)="modalAprovacaoSC_Exibir = true">
-        <app-widget className="h-100 mb-0">
+        <div class="dashboard-card">
           <h5>Aprovações de SC</h5>
-          <br />
-          <div style="font-size: 90px; color: lime;">{{ solicitacoesCompraParaAprovacao.length }}</div>
-        </app-widget>
+          <div class="card-count">{{ solicitacoesCompraParaAprovacao.length }}</div>
+        </div>
       </div>
     </div>
 
-    <div class="pb-xlg" style="text-align: center"></div>
-  </app-widget>
+  </div>
 
   <!-- =================== MODAL: TIPO NOVA SOLICITAÇÃO COMPRA =================== -->
   <div class="modal" tabindex="-1" [style.display]="modalNovoPedidoCompraTipoPedido_Exibir ? 'block' : 'none'">

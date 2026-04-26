@@ -47,7 +47,18 @@ export class AuthService {
     const user = payload ? { id: payload.Id, nome: payload.Nome } : {};
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    this.receiveLogin();
+    // Fetch full user DTO (with permission flags) and store as usuarioDTO, matching Vue auth store
+    if (payload?.Id) {
+      this.http.get(`${environment.baseURLApi}/Usuario/${payload.Id}`).subscribe({
+        next: (usuarioDTO: any) => {
+          localStorage.setItem('usuarioDTO', JSON.stringify(usuarioDTO));
+          this.receiveLogin();
+        },
+        error: () => this.receiveLogin()
+      });
+    } else {
+      this.receiveLogin();
+    }
   }
 
   receiveLogin(): void {
