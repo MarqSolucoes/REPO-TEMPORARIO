@@ -1,31 +1,163 @@
 <div class="ordemCompra-page">
   <app-loader [active]="isLoading"></app-loader>
-  <h1 class="page-title">Ordens de Compra - {{ tag }}</h1>
-  <app-widget>
+  <h1 class="page-title">Processo de Compra</h1>
+
+  <div class="tab-bar mb-3">
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===0" [class.btn-outline-secondary]="activeTab!==0" (click)="obtemSolicitacoesParaValidacao()">Para Validação</button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===1" [class.btn-outline-secondary]="activeTab!==1" (click)="obtemSolicitacoesCompraEmCotacao()">Em Cotação</button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===2" [class.btn-outline-secondary]="activeTab!==2" (click)="obtemSolicitacoesCompraParaAprovacao()">Para Aprovação</button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===3" [class.btn-outline-secondary]="activeTab!==3" (click)="obtemPedidosEmCompra()">Em Compra</button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===4" [class.btn-outline-secondary]="activeTab!==4" (click)="obtemPedidosFinalizadosCancelados()">Pedidos Finalizados/Cancelados</button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===5" [class.btn-outline-secondary]="activeTab!==5" (click)="obtemSolicitacoesFinalizadasCanceladas()">Solicitações Finalizadas/Canceladas</button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===6" [class.btn-outline-secondary]="activeTab!==6" (click)="obtemSolicitacoesDevolvidasDiretoria()">Devolvidas Diretoria</button>
+  </div>
+
+  <!-- ===== Tab 0 / Tab 1 / Tab 2: Solicitações (Para Validação | Em Cotação | Para Aprovação | Devolvidas Diretoria) ===== -->
+  <app-widget *ngIf="activeTab===0 || activeTab===1 || activeTab===2 || activeTab===6">
     <div class="table-card">
       <table class="estilo-tabela">
         <thead>
           <tr>
-            <th class="estilo-cabecalho">Número</th>
-            <th class="estilo-cabecalho">Descrição</th>
-            <th class="estilo-cabecalho texto-centro">Status</th>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho">Solicitante</th>
+            <th class="estilo-cabecalho texto-centro">Data Solicitação</th>
+            <th class="estilo-cabecalho texto-centro">Data Entrega</th>
+            <th class="estilo-cabecalho">Centro de Custo</th>
+            <th class="estilo-cabecalho texto-centro">Valor Estimado</th>
+            <th class="estilo-cabecalho texto-centro">Melhor Cotação</th>
+            <th class="estilo-cabecalho">Comprador</th>
             <th class="estilo-cabecalho texto-centro">Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of ordens; trackBy: trackByIndex">
-            <td class="estilo-celula">{{ row.numero }}</td>
-            <td class="estilo-celula">{{ row.descricao }}</td>
-            <td class="estilo-celula texto-centro">{{ row.status }}</td>
+          <tr *ngFor="let row of (activeTab===0 ? solicitacoesParaValidacao : activeTab===1 ? solicitacoesEmCotacao : activeTab===2 ? pedidosParaAprovacao : solicitacoesDevolvidasDiretoria); trackBy: trackByIndex">
+              <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+              <td class="estilo-celula">{{ row.usuarioCadastro ? row.usuarioCadastro.nome : '' }}</td>
+              <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+              <td class="estilo-celula texto-centro">{{ formataData(row.dataEntrega) }}</td>
+              <td class="estilo-celula">{{ centroCusto(row) }}</td>
+              <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorEstimado) }}</td>
+              <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorMelhorCotacao) }}</td>
+              <td class="estilo-celula">{{ row.usuarioComprador ? row.usuarioComprador.nome : '' }}</td>
+              <td class="estilo-celula texto-centro">
+                <button class="btn btn-sm btn-outline-info" (click)="verCotacao(row.id)">Ver Cotação</button>
+              </td>
+            </tr>
+          <tr *ngIf="(activeTab===0 && solicitacoesParaValidacao.length===0) || (activeTab===1 && solicitacoesEmCotacao.length===0) || (activeTab===2 && pedidosParaAprovacao.length===0) || (activeTab===6 && solicitacoesDevolvidasDiretoria.length===0)">
+            <td class="estilo-celula texto-centro" colspan="9">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 3: Em Compra (PedidoCompra) ===== -->
+  <app-widget *ngIf="activeTab===3">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho texto-centro">Solicitação</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Entrega</th>
+            <th class="estilo-cabecalho">Centro de Custo</th>
+            <th class="estilo-cabecalho">Fornecedor</th>
+            <th class="estilo-cabecalho texto-centro">Valor Total</th>
+            <th class="estilo-cabecalho">Comprador</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pedidosEmCompra; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ 'P' + row.codigoSequencia }}</td>
+            <td class="estilo-celula texto-centro">{{ row.solicitacaoCompra ? row.solicitacaoCompra.codigo : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataEntrega) }}</td>
+            <td class="estilo-celula">{{ centroCusto(row) }}</td>
+            <td class="estilo-celula">{{ row.fornecedor ? row.fornecedor.nomeFantasia : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorTotal) }}</td>
+            <td class="estilo-celula">{{ row.usuarioComprador ? row.usuarioComprador.nome : '' }}</td>
             <td class="estilo-celula texto-centro">
-              <button class="btn btn-sm btn-outline-info" (click)="verCotacao(row.id)">Ver Cotação</button>
+              <button class="btn btn-sm btn-outline-info" (click)="verCotacao(row.id)">Ver</button>
             </td>
           </tr>
-          <tr *ngIf="!ordens || ordens.length === 0">
-            <td class="estilo-celula texto-centro" colspan="4">Nenhum registro encontrado</td>
+          <tr *ngIf="!pedidosEmCompra || pedidosEmCompra.length===0">
+            <td class="estilo-celula texto-centro" colspan="9">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 4: Pedidos Finalizados/Cancelados ===== -->
+  <app-widget *ngIf="activeTab===4">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho texto-centro">Solicitação</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Entrega</th>
+            <th class="estilo-cabecalho">Centro de Custo</th>
+            <th class="estilo-cabecalho">Fornecedor</th>
+            <th class="estilo-cabecalho texto-centro">Valor Total</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+            <th class="estilo-cabecalho">Comprador</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pedidosCancelados; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+            <td class="estilo-celula texto-centro">{{ row.solicitacaoCompra ? row.solicitacaoCompra.codigo : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataEntrega) }}</td>
+            <td class="estilo-celula">{{ centroCusto(row) }}</td>
+            <td class="estilo-celula">{{ row.fornecedor ? row.fornecedor.nomeFantasia : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorTotal) }}</td>
+            <td class="estilo-celula texto-centro">{{ row.statusPedidoCompra ? row.statusPedidoCompra.descricao : '' }}</td>
+            <td class="estilo-celula">{{ row.usuarioComprador ? row.usuarioComprador.nome : '' }}</td>
+          </tr>
+          <tr *ngIf="!pedidosCancelados || pedidosCancelados.length===0">
+            <td class="estilo-celula texto-centro" colspan="9">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 5: Solicitações Finalizadas/Canceladas ===== -->
+  <app-widget *ngIf="activeTab===5">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho">Solicitante</th>
+            <th class="estilo-cabecalho texto-centro">Data Solicitação</th>
+            <th class="estilo-cabecalho texto-centro">Data Entrega</th>
+            <th class="estilo-cabecalho">Centro de Custo</th>
+            <th class="estilo-cabecalho texto-centro">Valor Estimado</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of solicitacoesCanceladas; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+            <td class="estilo-celula">{{ row.usuarioCadastro ? row.usuarioCadastro.nome : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataEntrega) }}</td>
+            <td class="estilo-celula">{{ centroCusto(row) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorEstimado) }}</td>
+            <td class="estilo-celula texto-centro">{{ row.statusSolicitacaoCompra ? row.statusSolicitacaoCompra.descricao : '' }}{{ row.motivoCancelamento ? ' - ' + row.motivoCancelamento : '' }}</td>
+          </tr>
+          <tr *ngIf="!solicitacoesCanceladas || solicitacoesCanceladas.length===0">
+            <td class="estilo-celula texto-centro" colspan="7">Nenhum registro encontrado</td>
           </tr>
         </tbody>
       </table>
     </div>
   </app-widget>
 </div>
+
