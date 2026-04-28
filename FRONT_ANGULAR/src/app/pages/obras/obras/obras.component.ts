@@ -64,7 +64,7 @@ export class ObrasComponent implements OnInit {
       return;
     }
     this.controle_Salvando = true;
-    const obj = { Nome: this.obra_Nome, Descricao: this.obra_Descricao, ClienteId: this.obra_ClienteId };
+    const obj = { Id: 0, IdCliente: this.obra_ClienteId, Nome: this.obra_Nome, Descricao: this.obra_Descricao };
     this.api.post('Obra', obj, (result) => {
       this.controle_Salvando = false;
       if (result.status !== 201) {

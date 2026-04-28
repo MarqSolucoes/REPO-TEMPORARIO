@@ -42,14 +42,23 @@
         <div class="modal-header"><h5 class="modal-title">{{ modal_Titulo }}</h5></div>
         <div class="modal-body">
           <div class="form-group"><label>Descrição</label><input type="text" class="form-control" [(ngModel)]="material_Descricao" /></div>
-          <div class="form-group"><label>Unidade</label><input type="text" class="form-control" [(ngModel)]="material_Unidade" /></div>
-          <div class="form-group"><label>Preço</label><input type="number" class="form-control" [(ngModel)]="material_Preco" /></div>
           <div class="form-group">
             <label>Categoria</label>
-            <select class="form-control" [(ngModel)]="material_CategoriaId">
+            <select class="form-control" [(ngModel)]="material_IdCategoriaMaterial">
               <option [value]="0">Selecione...</option>
               <option *ngFor="let c of categorias" [value]="c.id">{{ c.descricao }}</option>
             </select>
+          </div>
+          <div class="form-group">
+            <label>Unidade</label>
+            <select class="form-control" [(ngModel)]="material_IdUnidadeMaterial">
+              <option [value]="0">Selecione...</option>
+              <option *ngFor="let u of unidades" [value]="u.id">{{ u.descricao }}</option>
+            </select>
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="material_Servico" [(ngModel)]="material_Servico" />
+            <label class="form-check-label" for="material_Servico">Serviço</label>
           </div>
         </div>
         <div class="modal-footer">

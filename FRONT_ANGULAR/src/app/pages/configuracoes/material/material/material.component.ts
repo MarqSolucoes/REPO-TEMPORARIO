@@ -12,15 +12,16 @@ export class MaterialComponent implements OnInit {
   isLoading = false;
   materiais: any[] = [];
   categorias: any[] = [];
+  unidades: any[] = [];
   usuarioDTO: any = {};
   modal_Exibir = false;
   modal_Titulo = 'Cadastro de Material';
   modal_ExibirBotaoCadastrar = true;
   material_Id = 0;
   material_Descricao = '';
-  material_CategoriaId = 0;
-  material_Unidade = '';
-  material_Preco: any = 0;
+  material_IdCategoriaMaterial = 0;
+  material_IdUnidadeMaterial = 0;
+  material_Servico = false;
   material_Ativo = true;
   controle_Salvando = false;
 
@@ -30,6 +31,7 @@ export class MaterialComponent implements OnInit {
     this.usuarioDTO = JSON.parse(localStorage.getItem('usuarioDTO') || '{}');
     this.getAll();
     this.loadCategorias();
+    this.loadUnidades();
   }
 
   trackByIndex(i: number): number { return i; }
@@ -40,9 +42,15 @@ export class MaterialComponent implements OnInit {
     });
   }
 
+  loadUnidades(): void {
+    this.api.getUnidades((result) => {
+      if (result.status === 200) this.unidades = result.data;
+    });
+  }
+
   getAll(): void {
     this.materiais = [];
-    this.api.obtemMateriaisPaginados({}, (result) => {
+    this.api.obtemMateriaisPaginados({ skip: 0, take: 99999, descricao: '' }, (result) => {
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });
       } else {
@@ -55,9 +63,9 @@ export class MaterialComponent implements OnInit {
     this.modal_Titulo = 'Cadastro de Material';
     this.material_Id = 0;
     this.material_Descricao = '';
-    this.material_CategoriaId = 0;
-    this.material_Unidade = '';
-    this.material_Preco = 0;
+    this.material_IdCategoriaMaterial = 0;
+    this.material_IdUnidadeMaterial = 0;
+    this.material_Servico = false;
     this.material_Ativo = true;
     this.modal_ExibirBotaoCadastrar = true;
     this.modal_Exibir = true;
@@ -67,9 +75,9 @@ export class MaterialComponent implements OnInit {
     this.modal_Titulo = 'Edição de Material';
     this.material_Id = row.id;
     this.material_Descricao = row.descricao;
-    this.material_CategoriaId = row.materialCategoriaId;
-    this.material_Unidade = row.unidade;
-    this.material_Preco = row.preco;
+    this.material_IdCategoriaMaterial = row.idCategoriaMaterial;
+    this.material_IdUnidadeMaterial = row.idUnidadeMaterial;
+    this.material_Servico = row.servico;
     this.material_Ativo = row.ativo;
     this.modal_ExibirBotaoCadastrar = false;
     this.modal_Exibir = true;
@@ -81,7 +89,14 @@ export class MaterialComponent implements OnInit {
       return;
     }
     this.controle_Salvando = true;
-    const obj = { Id: this.material_Id, Descricao: this.material_Descricao, MaterialCategoriaId: this.material_CategoriaId, Unidade: this.material_Unidade, Preco: this.material_Preco, Ativo: this.material_Ativo };
+    const obj = {
+      Id: this.material_Id,
+      IdCategoriaMaterial: this.material_IdCategoriaMaterial,
+      IdUnidadeMaterial: this.material_IdUnidadeMaterial,
+      Descricao: this.material_Descricao,
+      Servico: this.material_Servico,
+      Ativo: this.material_Ativo
+    };
     if (this.modal_ExibirBotaoCadastrar) {
       this.api.post('Material', obj, (r: any) => this.handleSave(r));
     } else {

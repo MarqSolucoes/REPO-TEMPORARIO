@@ -11,20 +11,20 @@
       <table class="estilo-tabela">
         <thead>
           <tr>
-            <th class="estilo-cabecalho">Nome</th>
+            <th class="estilo-cabecalho">Razão Social</th>
+            <th class="estilo-cabecalho">Nome Fantasia</th>
             <th class="estilo-cabecalho">CNPJ</th>
-            <th class="estilo-cabecalho">Email</th>
-            <th class="estilo-cabecalho">Telefone</th>
+            <th class="estilo-cabecalho">E-mail Financeiro</th>
             <th class="estilo-cabecalho texto-centro">Status</th>
             <th class="estilo-cabecalho texto-centro">Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of clientes; trackBy: trackByIndex">
-            <td class="estilo-celula">{{ row.nome }}</td>
+            <td class="estilo-celula">{{ row.razaoSocial }}</td>
+            <td class="estilo-celula">{{ row.nomeFantasia }}</td>
             <td class="estilo-celula">{{ row.cnpj }}</td>
-            <td class="estilo-celula">{{ row.email }}</td>
-            <td class="estilo-celula">{{ row.telefone }}</td>
+            <td class="estilo-celula">{{ row.emailFinanceiro }}</td>
             <td class="estilo-celula texto-centro">{{ row.ativo ? 'Ativo' : 'Inativo' }}</td>
             <td class="estilo-celula texto-centro">
               <button *ngIf="row.ativo && usuarioDTO?.clienteAtivarDesativar" class="btn btn-sm btn-outline-danger mr-1" (click)="ativarDesativar(row.id, row.ativo)">Desativar</button>
@@ -46,8 +46,12 @@
         <div class="modal-header"><h5 class="modal-title">{{ modal_Titulo }}</h5></div>
         <div class="modal-body">
           <div class="form-group">
-            <label>Nome</label>
-            <input type="text" class="form-control" [(ngModel)]="cliente_Nome" />
+            <label>Razão Social</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_RazaoSocial" />
+          </div>
+          <div class="form-group">
+            <label>Nome Fantasia</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_NomeFantasia" />
           </div>
           <div class="form-group">
             <label>CNPJ</label>
@@ -58,16 +62,48 @@
             <input type="text" class="form-control" [(ngModel)]="cliente_InscricaoEstadual" />
           </div>
           <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" [(ngModel)]="cliente_Email" />
+            <label>E-mail Financeiro</label>
+            <input type="email" class="form-control" [(ngModel)]="cliente_EmailFinanceiro" />
           </div>
           <div class="form-group">
-            <label>Telefone</label>
-            <input type="text" class="form-control" [(ngModel)]="cliente_Telefone" />
+            <label>E-mail Comercial</label>
+            <input type="email" class="form-control" [(ngModel)]="cliente_EmailComercial" />
+          </div>
+          <div class="form-group">
+            <label>Responsável Comercial</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_ResponsavelComercial" />
+          </div>
+          <div class="form-group">
+            <label>Telefone Celular</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_TelefoneCelular" />
+          </div>
+          <div class="form-group">
+            <label>Telefone Fixo</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_TelefoneFixo" />
+          </div>
+          <div class="form-group">
+            <label>Dias de Pagamento</label>
+            <input type="number" class="form-control" [(ngModel)]="cliente_DiasDePagamento" />
+          </div>
+          <div class="form-group">
+            <label>CEP</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_CEP" />
+          </div>
+          <div class="form-group">
+            <label>Endereço</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_Endereco" />
+          </div>
+          <div class="form-group">
+            <label>Bairro</label>
+            <input type="text" class="form-control" [(ngModel)]="cliente_Bairro" />
+          </div>
+          <div class="form-group">
+            <label>Observação</label>
+            <textarea class="form-control" [(ngModel)]="cliente_Observacao"></textarea>
           </div>
           <div class="form-group">
             <label>Cidade</label>
-            <select class="form-control" [(ngModel)]="cliente_CidadeId">
+            <select class="form-control" [(ngModel)]="cliente_IdCidade">
               <option [value]="0">Selecione...</option>
               <option *ngFor="let c of cidades" [value]="c.id">{{ c.nome }}</option>
             </select>
