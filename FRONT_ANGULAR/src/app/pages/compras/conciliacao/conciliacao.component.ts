@@ -23,7 +23,7 @@ export class ConciliacaoComponent implements OnInit {
   getAll(): void {
     this.isLoading = true;
     this.itens = [];
-    this.api.getAll('Conciliacao', false, (result) => {
+    this.api.getPedidosParaConciliacao((result) => {
       this.isLoading = false;
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });

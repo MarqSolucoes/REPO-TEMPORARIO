@@ -23,7 +23,7 @@ export class CotacaoComponent implements OnInit {
 
   loadCotacao(): void {
     this.isLoading = true;
-    this.api.get('OrdemCompra', this.id, (result) => {
+    this.api.get('SolicitacaoCompra', this.id, (result) => {
       this.isLoading = false;
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });

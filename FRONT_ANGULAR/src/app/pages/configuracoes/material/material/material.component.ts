@@ -35,18 +35,18 @@ export class MaterialComponent implements OnInit {
   trackByIndex(i: number): number { return i; }
 
   loadCategorias(): void {
-    this.api.getAll('MaterialCategoria', true, (result) => {
+    this.api.getAll('CategoriaMaterial', true, (result) => {
       if (result.status === 200) this.categorias = result.data;
     });
   }
 
   getAll(): void {
     this.materiais = [];
-    this.api.getAll('Material', false, (result) => {
+    this.api.obtemMateriaisPaginados({}, (result) => {
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });
       } else {
-        this.materiais = result.data;
+        this.materiais = result.data?.data?.items ?? result.data;
       }
     });
   }

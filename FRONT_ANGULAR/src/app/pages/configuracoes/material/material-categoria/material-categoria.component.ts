@@ -31,7 +31,7 @@ export class MaterialCategoriaComponent implements OnInit {
 
   getAll(): void {
     this.categorias = [];
-    this.api.getAll('MaterialCategoria', false, (result) => {
+    this.api.getAll('CategoriaMaterial', false, (result) => {
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });
       } else {
@@ -66,9 +66,9 @@ export class MaterialCategoriaComponent implements OnInit {
     this.controle_Salvando = true;
     const obj = { Id: this.categoria_Id, Descricao: this.categoria_Descricao, Ativo: this.categoria_Ativo };
     if (this.modal_ExibirBotaoCadastrar) {
-      this.api.post('MaterialCategoria', obj, (r: any) => this.handleSave(r));
+      this.api.post('CategoriaMaterial', obj, (r: any) => this.handleSave(r));
     } else {
-      this.api.put('MaterialCategoria', obj, (r: any) => this.handleSave(r));
+      this.api.put('CategoriaMaterial', obj, (r: any) => this.handleSave(r));
     }
   }
 
@@ -83,7 +83,7 @@ export class MaterialCategoriaComponent implements OnInit {
   }
 
   ativarDesativar(id: any, ativo: boolean): void {
-    this.api.ativarDesativar('MaterialCategoria', id, !ativo, (result) => {
+    this.api.ativarDesativar('CategoriaMaterial', id, !ativo, (result) => {
       if (result.status !== 200) {
         Swal.fire({ title: 'Erro ao ativar/desativar categoria', text: result.message, icon: 'error' });
       } else {

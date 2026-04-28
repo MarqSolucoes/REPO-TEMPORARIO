@@ -23,7 +23,7 @@ export class RhComponent implements OnInit {
   getAll(): void {
     this.isLoading = true;
     this.funcionarios = [];
-    this.api.getAll('RH', false, (result) => {
+    this.api.getAll('Funcionario', false, (result) => {
       this.isLoading = false;
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });
