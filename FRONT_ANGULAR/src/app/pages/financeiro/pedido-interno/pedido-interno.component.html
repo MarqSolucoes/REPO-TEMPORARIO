@@ -1,0 +1,173 @@
+<div class="pedidoInterno-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Pedidos Internos</h1>
+
+  <!-- Modal Editar Parcela -->
+  <div class="modal fade" [class.show]="modalPedidoInternoEdicao_Exibir" [style.display]="modalPedidoInternoEdicao_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Parcela</h5>
+          <button class="close text-white" (click)="modalPedidoInternoEdicao_Exibir = false"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="form-label">Data do Pagamento</label>
+              <input type="date" class="form-control" [(ngModel)]="modalPedidoInternoEdicao_DataPagamento" style="color:white;background:#1a1a2e">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Valor</label>
+              <input type="number" class="form-control" [(ngModel)]="modalPedidoInternoEdicao_Valor" style="color:white;background:#1a1a2e">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary mr-2" (click)="modalPedidoInternoEdicao_Exibir = false">Cancelar</button>
+          <button class="btn btn-success" (click)="alterarParcela()"><i class="fa fa-save mr-1"></i> Alterar Parcela</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalPedidoInternoEdicao_Exibir"></div>
+
+  <!-- Modal Parcelas -->
+  <div class="modal fade" [class.show]="modalPedidoInterno_Exibir" [style.display]="modalPedidoInterno_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalPedidoInterno_Titulo }}</h5>
+          <button class="close text-white" (click)="modalPedidoInterno_Exibir = false"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-card" *ngIf="modalPedidoInterno_Parcelas?.length > 0">
+            <table class="estilo-tabela">
+              <thead><tr>
+                <th class="estilo-cabecalho texto-centro">Código</th>
+                <th class="estilo-cabecalho texto-centro">Parcela</th>
+                <th class="estilo-cabecalho texto-centro">Valor</th>
+                <th class="estilo-cabecalho texto-centro">Data Pag.</th>
+                <th class="estilo-cabecalho texto-centro">Pag. Efetuado</th>
+                <th class="estilo-cabecalho texto-centro">Ações</th>
+              </tr></thead>
+              <tbody>
+                <tr *ngFor="let p of modalPedidoInterno_Parcelas; trackBy: trackByIndex">
+                  <td class="estilo-celula texto-centro">{{ p.codigoFormatado }}</td>
+                  <td class="estilo-celula texto-centro">{{ p.parcela }}</td>
+                  <td class="estilo-celula texto-centro">{{ p.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataDataSemHora(p.dataPagamento) }}</td>
+                  <td class="estilo-celula texto-centro">{{ p.pagamentoEfetuado ? 'Sim' : 'Não' }}</td>
+                  <td class="estilo-celula texto-centro">
+                    <button *ngIf="!p.pagamentoEfetuado" class="btn btn-outline-success btn-sm mr-1" (click)="definirParcelaComoPaga(p.id)" title="Informar como Pago">
+                      <i class="fa fa-thumbs-up"></i>
+                    </button>
+                    <button *ngIf="!p.pagamentoEfetuado" class="btn btn-outline-success btn-sm" (click)="abrirEdicaoParcela(p)" title="Editar">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p *ngIf="!modalPedidoInterno_Parcelas?.length">Nenhuma parcela.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="modalPedidoInterno_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalPedidoInterno_Exibir && !modalPedidoInternoEdicao_Exibir"></div>
+
+  <!-- Modal Arquivos -->
+  <div class="modal fade" [class.show]="modalArquivos_Exibir" [style.display]="modalArquivos_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">Arquivos</h5>
+          <button class="close text-white" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-card" *ngIf="modalArquivos_Arquivos?.length > 0">
+            <table class="estilo-tabela">
+              <thead><tr>
+                <th class="estilo-cabecalho">Nome</th>
+                <th class="estilo-cabecalho">Usuário</th>
+                <th class="estilo-cabecalho texto-centro">Data</th>
+                <th class="estilo-cabecalho texto-centro">Ações</th>
+              </tr></thead>
+              <tbody>
+                <tr *ngFor="let arq of modalArquivos_Arquivos; trackBy: trackByIndex">
+                  <td class="estilo-celula">{{ arq.nome }}</td>
+                  <td class="estilo-celula">{{ arq.usuarioCadastro?.nome }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataData(arq.dataCadastro) }}</td>
+                  <td class="estilo-celula texto-centro">
+                    <button class="btn btn-warning btn-sm mr-1" (click)="downloadArquivo(arq.id)">
+                      <i class="fa fa-download"></i>
+                    </button>
+                    <button *ngIf="usuarioLogado?.id === arq.usuarioCadastro?.id" class="btn btn-danger btn-sm" (click)="excluirArquivo(arq.id)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p *ngIf="!modalArquivos_Arquivos?.length">Nenhum arquivo.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="modalArquivos_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalArquivos_Exibir"></div>
+
+  <!-- Tabela Principal -->
+  <app-widget>
+    <div class="table-card table-card--scroll-x">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho">Beneficiário</th>
+            <th class="estilo-cabecalho texto-centro">Valor Total</th>
+            <th class="estilo-cabecalho texto-centro">Aprovado</th>
+            <th class="estilo-cabecalho texto-centro">Parcelas</th>
+            <th class="estilo-cabecalho texto-centro">Cadastro</th>
+            <th class="estilo-cabecalho">Usuário</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pedidosInternos; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigoFormatado }}</td>
+            <td class="estilo-celula">{{ row.descricao }}</td>
+            <td class="estilo-celula texto-centro">
+              {{ row.idFornecedorBeneficiario == null
+                ? (row.usuarioBeneficiario?.nome || '')
+                : (row.fornecedorBeneficiario?.nomeFantasia || '') }}
+            </td>
+            <td class="estilo-celula texto-centro">{{ row.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+            <td class="estilo-celula texto-centro">{{ row.aprovado == null ? 'Pendente' : (row.aprovado ? 'Sim' : 'Não') }}</td>
+            <td class="estilo-celula texto-centro">{{ row.numeroTotalParcelas }}</td>
+            <td class="estilo-celula texto-centro">{{ formataDataSemHora(row.dataCadastro) }}</td>
+            <td class="estilo-celula">{{ row.usuarioCadastro?.nome }}</td>
+            <td class="estilo-celula texto-centro" style="white-space:nowrap">
+              <button class="btn btn-info btn-sm mr-1" (click)="abrirModalParcelas(row)">
+                <i class="fa fa-list"></i> Parcelas
+              </button>
+              <button class="btn btn-outline-info btn-sm" (click)="abrirModalArquivos(row)">
+                <i class="fa fa-paperclip"></i> Arquivos
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="!pedidosInternos?.length">
+            <td class="estilo-celula texto-centro" colspan="9">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+</div>

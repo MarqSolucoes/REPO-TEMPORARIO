@@ -1,0 +1,272 @@
+<div class="faturamento-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Faturamento</h1>
+
+  <!-- Modal Data Faturamento -->
+  <div class="modal fade" [class.show]="modalDataFaturamento_Exibir" [style.display]="modalDataFaturamento_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Informar Recebimento — NF {{ modalDataFaturamento_Faturamento?.numeroNF || '—' }}
+          </h5>
+          <button class="close text-white" (click)="modalDataFaturamento_Exibir = false"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" *ngIf="modalDataFaturamento_Faturamento">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong>Valor Bruto:</strong>
+              {{ modalDataFaturamento_Faturamento.valorBruto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </div>
+            <div class="col-md-6">
+              <strong>Valor Líquido:</strong>
+              {{ modalDataFaturamento_Faturamento.valorLiquido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </div>
+          </div>
+          <div class="mb-3 d-flex align-items-center gap-3">
+            <span [class.font-weight-bold]="!modalDataFaturamento_TipoTotal">Parcial</span>
+            <div class="custom-control custom-switch mx-2">
+              <input type="checkbox" class="custom-control-input" id="tipoSwitch" [(ngModel)]="modalDataFaturamento_TipoTotal">
+              <label class="custom-control-label" for="tipoSwitch"></label>
+            </div>
+            <span [class.font-weight-bold]="modalDataFaturamento_TipoTotal">Total</span>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label>Data Faturamento</label>
+              <input type="date" class="form-control" [(ngModel)]="modalDataFaturamento_DataFaturamento" style="color:white;background:#1a1a2e">
+            </div>
+          </div>
+          <div *ngIf="!modalDataFaturamento_TipoTotal" class="row mb-3">
+            <div class="col-md-6">
+              <label>Valor Recebido</label>
+              <input type="number" class="form-control" [(ngModel)]="modalDataFaturamento_ValorRecebido" style="color:white;background:#1a1a2e">
+            </div>
+            <div class="col-md-6">
+              <label>Data Próximo Recebimento</label>
+              <input type="date" class="form-control" [(ngModel)]="modalDataFaturamento_DataProximoRecebimento" style="color:white;background:#1a1a2e">
+            </div>
+          </div>
+          <div *ngIf="modalDataFaturamento_TipoTotal" class="alert alert-info">
+            <p>O valor líquido de <b>{{ modalDataFaturamento_Faturamento.valorLiquido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</b> será registrado como recebido.</p>
+          </div>
+          <div *ngIf="!modalDataFaturamento_TipoTotal">
+            <div *ngIf="modalDataFaturamento_ValorRecebido <= 0" class="alert alert-warning">⚠ Informe um valor maior que zero.</div>
+            <div *ngIf="modalDataFaturamento_ValorRecebido > modalDataFaturamento_Faturamento.valorLiquido" class="alert alert-danger">
+              ✕ O valor excede o líquido disponível.
+            </div>
+            <div *ngIf="modalDataFaturamento_ValorRecebido > 0 && modalDataFaturamento_ValorRecebido <= modalDataFaturamento_Faturamento.valorLiquido" class="alert alert-info">
+              ℹ Saldo restante: {{ (modalDataFaturamento_Faturamento.valorLiquido - modalDataFaturamento_ValorRecebido) | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary mr-2" (click)="modalDataFaturamento_Exibir = false">Cancelar</button>
+          <button class="btn btn-success" (click)="salvarDataFaturamento()">
+            <i class="fa fa-save mr-1"></i>
+            {{ modalDataFaturamento_TipoTotal ? 'Recebimento total' : 'Recebimento parcial' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalDataFaturamento_Exibir"></div>
+
+  <!-- Modal Arquivos -->
+  <div class="modal fade" [class.show]="modalArquivos_Exibir" [style.display]="modalArquivos_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalArquivos_Titulo }}</h5>
+          <button class="close text-white" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-card" *ngIf="modalArquivos_Arquivos?.length > 0">
+            <table class="estilo-tabela">
+              <thead><tr>
+                <th class="estilo-cabecalho">Nome</th>
+                <th class="estilo-cabecalho">Usuário</th>
+                <th class="estilo-cabecalho texto-centro">Data</th>
+                <th class="estilo-cabecalho texto-centro">Ação</th>
+              </tr></thead>
+              <tbody>
+                <tr *ngFor="let arq of modalArquivos_Arquivos; trackBy: trackByIndex">
+                  <td class="estilo-celula">{{ arq.nome }}</td>
+                  <td class="estilo-celula">{{ arq.usuarioCadastro?.nome }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataData(arq.dataCadastro) }}</td>
+                  <td class="estilo-celula texto-centro">
+                    <button class="btn btn-warning btn-sm" (click)="downloadArquivo(arq.id)">
+                      <i class="fa fa-download"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p *ngIf="!modalArquivos_Arquivos?.length">Nenhum arquivo.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="modalArquivos_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalArquivos_Exibir"></div>
+
+  <!-- Tabs -->
+  <div class="tab-bar mb-3">
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===0" [class.btn-outline-secondary]="activeTab!==0" (click)="activeTab=0">
+      Faturamento [{{ faturamentos.length }}]
+    </button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===1" [class.btn-outline-secondary]="activeTab!==1" (click)="activeTab=1">
+      A Faturar [{{ medicoes.length }}]
+    </button>
+  </div>
+
+  <!-- Filtros comuns -->
+  <app-widget>
+    <h5 class="mb-3">Filtros</h5>
+    <div class="row">
+      <div class="col-md-3 mb-2">
+        <label>Obra</label>
+        <select class="form-control" [(ngModel)]="filtro_ObraSelecionada" style="color:white;background:#1a1a2e">
+          <option [ngValue]="null">Todas</option>
+          <option *ngFor="let o of filtro_Obras; trackBy: trackByIndex" [ngValue]="o">{{ o.codigo }} — {{ o.cliente?.nomeFantasia }}</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-2">
+        <label>Cliente</label>
+        <select class="form-control" [(ngModel)]="filtro_ClienteSelecionado" style="color:white;background:#1a1a2e">
+          <option [ngValue]="null">Todos</option>
+          <option *ngFor="let c of filtro_Clientes; trackBy: trackByIndex" [ngValue]="c">{{ c.nomeFantasia }}</option>
+        </select>
+      </div>
+      <div class="col-md-2 mb-2">
+        <label>NF</label>
+        <input class="form-control" [(ngModel)]="filtro_NumeroNF" style="color:white;background:#1a1a2e">
+      </div>
+      <div class="col-md-2 mb-2">
+        <label>Status</label>
+        <select class="form-control" [(ngModel)]="filtro_StatusFaturamentoSelecionado" style="color:white;background:#1a1a2e">
+          <option *ngFor="let s of filtro_StatusFaturamento; trackBy: trackByIndex" [ngValue]="s">{{ s.descricao }}</option>
+        </select>
+      </div>
+      <div class="col-md-2 mb-2">
+        <label>Observação</label>
+        <input class="form-control" [(ngModel)]="filtro_Observacao" style="color:white;background:#1a1a2e">
+      </div>
+      <div class="col-md-3 mb-2">
+        <label>Fat. Inicial</label>
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataFaturamentoInicial" style="color:white;background:#1a1a2e">
+      </div>
+      <div class="col-md-3 mb-2">
+        <label>Fat. Final</label>
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataFaturamentoFinal" style="color:white;background:#1a1a2e">
+      </div>
+      <div class="col-md-3 mb-2">
+        <label>Receb. Inicial</label>
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataRecebimentoInicial" style="color:white;background:#1a1a2e">
+      </div>
+      <div class="col-md-3 mb-2">
+        <label>Receb. Final</label>
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataRecebimentoFinal" style="color:white;background:#1a1a2e">
+      </div>
+      <div class="col-12 mb-2 d-flex gap-2">
+        <button class="btn btn-danger mr-2" (click)="limparFiltros()">Limpar</button>
+        <button class="btn btn-success mr-2" (click)="obtemFaturamentos()">Pesquisar</button>
+        <button class="btn btn-outline-warning" (click)="downloadRelatorio()">
+          <i class="fa fa-download mr-1"></i> Relatório
+        </button>
+      </div>
+    </div>
+  </app-widget>
+
+  <!-- Tab 0: Faturamento -->
+  <app-widget *ngIf="activeTab===0">
+    <div class="table-card table-card--scroll-x">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">NF</th>
+            <th class="estilo-cabecalho">Obra</th>
+            <th class="estilo-cabecalho">Cliente</th>
+            <th class="estilo-cabecalho texto-centro">CNPJ</th>
+            <th class="estilo-cabecalho texto-centro">Valor Bruto</th>
+            <th class="estilo-cabecalho texto-centro">Valor Líquido</th>
+            <th class="estilo-cabecalho texto-centro">Data Fat.</th>
+            <th class="estilo-cabecalho texto-centro">Data Receb.</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of faturamentos; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.numeroNF }}</td>
+            <td class="estilo-celula">{{ row.obra }}</td>
+            <td class="estilo-celula">{{ row.cliente }}</td>
+            <td class="estilo-celula texto-centro">{{ row.cnpj }}</td>
+            <td class="estilo-celula texto-centro">{{ row.valorBruto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+            <td class="estilo-celula texto-centro">{{ row.valorLiquido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataFaturamento) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataPagamento || row.dataRecebimento) }}</td>
+            <td class="estilo-celula texto-centro">{{ row.status }}</td>
+            <td class="estilo-celula texto-centro" style="white-space:nowrap">
+              <button *ngIf="row.idStatusFaturamento === 2" class="btn btn-success btn-sm mr-1" (click)="abrirModalDataFaturamento(row)">
+                <i class="fa fa-money"></i> Recebido
+              </button>
+              <button *ngIf="row.arquivos?.length > 0" class="btn btn-outline-info btn-sm" (click)="abrirModalArquivos(row)">
+                <i class="fa fa-paperclip"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="!faturamentos?.length">
+            <td class="estilo-celula texto-centro" colspan="10">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- Tab 1: A Faturar -->
+  <app-widget *ngIf="activeTab===1">
+    <div class="table-card table-card--scroll-x">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">CNPJ</th>
+            <th class="estilo-cabecalho">Razão Social</th>
+            <th class="estilo-cabecalho texto-centro">Valor</th>
+            <th class="estilo-cabecalho texto-centro">Valor Líquido</th>
+            <th class="estilo-cabecalho texto-centro">Data Lançamento</th>
+            <th class="estilo-cabecalho texto-centro">Data Pagamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of medicoes; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+            <td class="estilo-celula">{{ row.descricao }}</td>
+            <td class="estilo-celula texto-centro">{{ row.cnpj }}</td>
+            <td class="estilo-celula">{{ row.razaoSocial }}</td>
+            <td class="estilo-celula texto-centro">{{ row.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+            <td class="estilo-celula texto-centro">{{ row.valorLiquido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataLancamento) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataPagamento) }}</td>
+          </tr>
+          <tr *ngIf="!medicoes?.length">
+            <td class="estilo-celula texto-centro" colspan="8">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf="medicoes?.length">
+          <tr>
+            <td class="estilo-celula texto-centro" colspan="4"><strong>TOTAIS</strong></td>
+            <td class="estilo-celula texto-centro"><strong>{{ totalValorBruto | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong></td>
+            <td class="estilo-celula texto-centro"><strong>{{ totalValorLiquido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong></td>
+            <td class="estilo-celula" colspan="2"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </app-widget>
+</div>
