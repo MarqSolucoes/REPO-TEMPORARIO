@@ -125,7 +125,7 @@ export class FornecedorComponent implements OnInit {
     this.fornecedor_Email = row.email;
     this.fornecedor_NomeVendedor = row.nomeVendedor;
     this.fornecedor_TelefoneCelular = row.telefoneCelular;
-    this.fornecedor_TelefoneFixo = row.teleFoneFixo;
+    this.fornecedor_TelefoneFixo = row.telefoneFixo;
     this.fornecedor_CEP = row.cep;
     this.fornecedor_Bairro = row.bairro;
     this.fornecedor_Endereco = row.endereco;

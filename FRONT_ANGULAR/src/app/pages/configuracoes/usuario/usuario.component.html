@@ -11,16 +11,20 @@
       <table class="estilo-tabela">
         <thead>
           <tr>
+            <th class="estilo-cabecalho">Cargo</th>
             <th class="estilo-cabecalho">Nome</th>
             <th class="estilo-cabecalho">Login</th>
+            <th class="estilo-cabecalho texto-centro">Login Habilitado</th>
             <th class="estilo-cabecalho texto-centro">Status</th>
             <th class="estilo-cabecalho texto-centro">Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of usuarios; trackBy: trackByIndex">
+            <td class="estilo-celula">{{ row.cargoUsuario ? row.cargoUsuario.descricao : '' }}</td>
             <td class="estilo-celula">{{ row.nome }}</td>
             <td class="estilo-celula">{{ row.login }}</td>
+            <td class="estilo-celula texto-centro">{{ row.habilitaLogin ? 'Sim' : 'Não' }}</td>
             <td class="estilo-celula texto-centro">{{ row.ativo ? 'Ativo' : 'Inativo' }}</td>
             <td class="estilo-celula texto-centro">
               <button *ngIf="row.ativo && usuarioDTO?.usuarioAtivarDesativar" class="btn btn-sm btn-outline-danger mr-1" (click)="ativarDesativar(row.id, row.ativo)">Desativar</button>
@@ -29,7 +33,7 @@
             </td>
           </tr>
           <tr *ngIf="!usuarios || usuarios.length === 0">
-            <td class="estilo-celula texto-centro" colspan="4">Nenhum registro encontrado</td>
+            <td class="estilo-celula texto-centro" colspan="6">Nenhum registro encontrado</td>
           </tr>
         </tbody>
       </table>

@@ -71,7 +71,7 @@ export class UsuarioComponent implements OnInit {
   openEdit(row: any): void {
     this.modal_Titulo = 'Edição de Usuário';
     this.usuario_Id = row.id;
-    this.usuario_IdCargo = row.idCargo;
+    this.usuario_IdCargo = row.cargo?.id ?? row.idCargo;
     this.usuario_Nome = row.nome;
     this.usuario_Email = row.email;
     this.usuario_Login = row.login;

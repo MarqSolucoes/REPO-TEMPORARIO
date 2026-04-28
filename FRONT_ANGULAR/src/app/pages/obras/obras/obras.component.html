@@ -45,7 +45,7 @@
             <label>Cliente</label>
             <select class="form-control" [(ngModel)]="obra_ClienteId">
               <option [value]="0">Selecione...</option>
-              <option *ngFor="let c of clientes" [value]="c.id">{{ c.nome }}</option>
+              <option *ngFor="let c of clientes" [value]="c.id">{{ c.razaoSocial || c.nomeFantasia }}</option>
             </select>
           </div>
         </div>

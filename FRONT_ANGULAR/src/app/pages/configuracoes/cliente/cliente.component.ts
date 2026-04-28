@@ -96,13 +96,13 @@ export class ClienteComponent implements OnInit {
     this.cliente_EmailComercial = row.emailComercial;
     this.cliente_ResponsavelComercial = row.responsavelComercial;
     this.cliente_TelefoneCelular = row.telefoneCelular;
-    this.cliente_TelefoneFixo = row.teleFoneFixo;
+    this.cliente_TelefoneFixo = row.telefoneFixo;
     this.cliente_DiasDePagamento = row.diasDePagamento;
     this.cliente_CEP = row.cep;
     this.cliente_Endereco = row.endereco;
     this.cliente_Bairro = row.bairro;
     this.cliente_Observacao = row.observacao;
-    this.cliente_IdCidade = row.idCidade;
+    this.cliente_IdCidade = row.cidade?.id ?? row.idCidade;
     this.cliente_Ativo = row.ativo;
     this.modal_ExibirBotaoCadastrar = false;
     this.modal_Exibir = true;
