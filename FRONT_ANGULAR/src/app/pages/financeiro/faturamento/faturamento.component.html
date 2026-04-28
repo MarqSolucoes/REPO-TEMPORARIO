@@ -81,7 +81,7 @@
           <button class="close text-white" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
-          <div class="table-card" *ngIf="modalArquivos_Arquivos?.length > 0">
+          <div class="table-card" *ngIf="(modalArquivos_Arquivos?.length ?? 0) > 0">
             <table class="estilo-tabela">
               <thead><tr>
                 <th class="estilo-cabecalho">Nome</th>
