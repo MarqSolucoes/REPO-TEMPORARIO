@@ -20,7 +20,7 @@
         <tbody>
           <tr *ngFor="let row of materiais; trackBy: trackByIndex">
             <td class="estilo-celula">{{ row.descricao }}</td>
-            <td class="estilo-celula">{{ row.unidade }}</td>
+            <td class="estilo-celula">{{ row.unidadeMaterial ? row.unidadeMaterial.codigo : '' }}</td>
             <td class="estilo-celula texto-centro">{{ row.ativo ? 'Ativo' : 'Inativo' }}</td>
             <td class="estilo-celula texto-centro">
               <button *ngIf="row.ativo && usuarioDTO?.materialAtivarDesativar" class="btn btn-sm btn-outline-danger mr-1" (click)="ativarDesativar(row.id, row.ativo)">Desativar</button>

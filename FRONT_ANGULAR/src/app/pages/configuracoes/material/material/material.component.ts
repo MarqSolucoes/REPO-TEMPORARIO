@@ -54,7 +54,8 @@ export class MaterialComponent implements OnInit {
       if (result.status !== 200) {
         Swal.fire({ title: '', text: result.message, icon: 'error' });
       } else {
-        this.materiais = result.data?.data?.items ?? result.data;
+        console.log(result.data);
+        this.materiais = result.data?.items;
       }
     });
   }
