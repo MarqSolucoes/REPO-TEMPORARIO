@@ -51,7 +51,7 @@ export class ApiService {
   }
 
   habilitarDesabilitarPedidoInterno(controller: string, id: any, valor: boolean, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/${controller}/HabilitarDesabilitar?id=${id}&habilitar=${valor}`, {}).subscribe({
+    this.http.post(`${this.base}/${controller}/HabilitarDesabilitarPI?id=${id}&habilitarDesabilitar=${valor}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '' }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -59,28 +59,28 @@ export class ApiService {
 
   // ===== RASCUNHO =====
   obtemRascunhos(cb: (r: any) => void): void {
-    this.http.get(`${this.base}/Rascunho`).subscribe({
+    this.http.get(`${this.base}/SolicitacaoCompraRascunho`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   salvaRascunho(objeto: any, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/Rascunho`, objeto).subscribe({
+    this.http.post(`${this.base}/SolicitacaoCompraRascunho`, objeto).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   atualizaRascunho(objeto: any, cb: (r: any) => void): void {
-    this.http.put(`${this.base}/Rascunho`, objeto).subscribe({
+    this.http.put(`${this.base}/SolicitacaoCompraRascunho`, objeto).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   excluiRascunho(id: any, cb: (r: any) => void): void {
-    this.http.delete(`${this.base}/Rascunho/${id}`).subscribe({
+    this.http.delete(`${this.base}/SolicitacaoCompraRascunho/${id}`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -88,7 +88,7 @@ export class ApiService {
 
   // ===== MATERIAIS =====
   buscaMaterialPorTexto(material: string, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/Material/BuscaPorTexto?material=${material}`).subscribe({
+    this.http.get(`${this.base}/Material/BuscaMaterialPorTexto/${material}`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -96,28 +96,28 @@ export class ApiService {
 
   // ===== SOLICITAÇÕES DE COMPRA =====
   getSolicitacoesCompraStatus(idStatus: number, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/SolicitacaoCompra?idStatus=${idStatus}`).subscribe({
+    this.http.get(`${this.base}/SolicitacaoCompra/Status/${idStatus}`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   getSolicitacoesCompraUsuario(filtros: any, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/SolicitacaoCompra/SolicitacoesUsuario`, filtros).subscribe({
+    this.http.post(`${this.base}/SolicitacaoCompra/Usuario/`, filtros).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   cancelarSolicitacaoCompra(id: any, motivo: string, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/SolicitacaoCompra/Cancelar/${id}?motivo=${motivo}`, {}).subscribe({
+    this.http.post(`${this.base}/SolicitacaoCompra/Cancelar?idSolicitacaoCompra=${id}&motivoCancelamento=${motivo}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   validarSolicitacaoCompra(id: any, idComprador: number, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/SolicitacaoCompra/Validar/${id}?idComprador=${idComprador}`, {}).subscribe({
+    this.http.post(`${this.base}/SolicitacaoCompra/Validar/${id}/${idComprador}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -153,7 +153,7 @@ export class ApiService {
 
   // ===== PEDIDOS INTERNOS =====
   getPedidosInternosUsuario(cb: (r: any) => void): void {
-    this.http.get(`${this.base}/PedidoInterno/PedidosUsuario`).subscribe({
+    this.http.get(`${this.base}/PedidoInterno/Usuario/`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -167,14 +167,14 @@ export class ApiService {
   }
 
   obtemPedidosInternosParaAprovacao(idUsuario: number, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/PedidoInterno/ParaAprovacao/${idUsuario}`).subscribe({
+    this.http.get(`${this.base}/PedidoInterno/ObtemPedidosInternosParaAprovacao/${idUsuario}`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   aprovarReprovarPedidoInterno(id: any, valor: boolean, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/PedidoInterno/AprovarReprovar/${id}?valor=${valor}`, {}).subscribe({
+    this.http.post(`${this.base}/PedidoInterno/AprovarReprovarPedidoInterno/${id}/${valor}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -182,35 +182,35 @@ export class ApiService {
 
   // ===== NOTAS FISCAIS =====
   obtemNotasFiscaisParaAprovacao(cb: (r: any) => void): void {
-    this.http.get(`${this.base}/PedidoCompra/NotaFiscal/ParaAprovacao`).subscribe({
+    this.http.get(`${this.base}/PedidoCompra/NotaFiscal/ObtemParaAprovacao`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   obtemCotacoesParaAprovacao(cb: (r: any) => void): void {
-    this.http.get(`${this.base}/SolicitacaoCompra/QuantidadeParaAprovacao`).subscribe({
+    this.http.get(`${this.base}/SolicitacaoCompra/Cotacoes/ObtemParaAprovacao`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   aprovarReprovarNotaFiscal(id: any, aprovada: boolean, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/PedidoCompra/NotaFiscal/AprovarReprovar/${id}?aprovada=${aprovada}`, {}).subscribe({
+    this.http.post(`${this.base}/PedidoCompra/NotaFiscal/AprovarReprovar/${id}/${aprovada}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   editarDataVencimentoNF(objeto: any, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/PedidoCompra/NotaFiscal/EditarDataVencimento`, objeto).subscribe({
+    this.http.post(`${this.base}/NotaFiscal/EditarDataVencimento`, objeto).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   obtemNotasFiscaisAlteracaoData(id: any, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/PedidoCompra/NotaFiscal/AlteracaoData/${id}`).subscribe({
+    this.http.get(`${this.base}/PedidoCompra/NotaFiscal/ObtemNotasFiscaisAlteracaoData/${id}`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -239,7 +239,7 @@ export class ApiService {
   }
 
   downloadPdfPedidoCompra(id: any, exibirDataPagamento: boolean = true, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/PedidoCompra/PDF/${id}?exibirDataPagamento=${exibirDataPagamento}`,
+    this.http.get(`${this.base}/PedidoCompra/Pdf/Download/${id}/${exibirDataPagamento}`,
       { responseType: 'blob', observe: 'response' }).subscribe({
       next: (resp: any) => cb({ status: 200, message: '', data: resp.body, contentType: resp.headers.get('content-type') }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
@@ -247,7 +247,7 @@ export class ApiService {
   }
 
   downloadPdfArquivoSolicitacaoCompra(id: any, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/SolicitacaoCompra/PDF/${id}`,
+    this.http.get(`${this.base}/SolicitacaoCompra/Pdf/Download/${id}`,
       { responseType: 'blob', observe: 'response' }).subscribe({
       next: (resp: any) => cb({ status: 200, message: '', data: resp.body, contentType: resp.headers.get('content-type') }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
@@ -255,7 +255,7 @@ export class ApiService {
   }
 
   downloadPdfPedidoInterno(id: any, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/PedidoInterno/PDF/${id}`,
+    this.http.get(`${this.base}/PedidoInterno/Pdf/Download/${id}`,
       { responseType: 'blob', observe: 'response' }).subscribe({
       next: (resp: any) => cb({ status: 200, message: '', data: resp.body, contentType: resp.headers.get('content-type') }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
@@ -264,14 +264,14 @@ export class ApiService {
 
   // ===== COMENTARIOS =====
   obtemComentarios(controller: string, id: any, cb: (r: any) => void): void {
-    this.http.get(`${this.base}/${controller}/Comentarios/${id}`).subscribe({
+    this.http.get(`${this.base}/${controller}/Comentario/${id}`).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   enviarComentario(controller: string, id: any, texto: string, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/${controller}/Comentarios/${id}`, { texto }).subscribe({
+    this.http.post(`${this.base}/${controller}/Comentario?id=${id}&comentario=${texto}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -279,14 +279,14 @@ export class ApiService {
 
   // ===== OUTROS =====
   listaFornecedoresFiltrados(filtro: any, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/Fornecedor/Filtrados`, filtro).subscribe({
+    this.http.post(`${this.base}/Fornecedor/GetFiltrado`, filtro).subscribe({
       next: (data: any) => cb({ status: 200, message: '', data }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
   }
 
   habilitarDesabilitarLogin(idUsuario: any, valor: boolean, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/Usuario/HabilitarDesabilitarLogin?id=${idUsuario}&habilitarDesabilitar=${valor}`, {}).subscribe({
+    this.http.post(`${this.base}/Usuario/HabilitaDesabilitaLogin?id=${idUsuario}&habilitaDesabilitaLogin=${valor}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '' }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
@@ -300,7 +300,7 @@ export class ApiService {
   }
 
   cancelarPedidoCompra(id: any, motivo: string, cb: (r: any) => void): void {
-    this.http.post(`${this.base}/PedidoCompra/Cancelar/${id}?motivo=${motivo}`, {}).subscribe({
+    this.http.post(`${this.base}/PedidoCompra/Cancelar?idPedidoCompra=${id}&motivoCancelamento=${motivo}`, {}).subscribe({
       next: (data: any) => cb({ status: 200, message: '' }),
       error: (err) => cb({ status: err.status || 500, message: err.error || 'Erro de comunicação com o servidor' })
     });
