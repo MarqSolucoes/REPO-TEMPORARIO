@@ -26,5 +26,5 @@
 - [~] Página: RH
 - [~] Página: Error
 
-LAST_COMPLETED_STEP: Revisão completa de paridade e reclassificação de status para refletir estado real
-NEXT_STEP: Fechar gaps de paridade funcional/visual e contratos por página até marcar [x]
+LAST_COMPLETED_STEP: Gerado relatório automatizado de paridade (MIGRATION_PARITY_REPORT.md)
+NEXT_STEP: Executar fechamento dos itens faltantes do MIGRATION_PARITY_REPORT.md por prioridade de negócio
