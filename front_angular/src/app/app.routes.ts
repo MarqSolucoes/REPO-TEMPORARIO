@@ -27,6 +27,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/compras/ordem-compra/ordem-compra.component').then((m) => m.OrdemCompraComponent),
   },
   {
+    path: 'compras/cotacao',
+    loadComponent: () => import('./pages/compras/cotacao/cotacao.component').then((m) => m.CotacaoComponent),
+  },
+  {
+    path: 'compras/conciliacao',
+    loadComponent: () => import('./pages/compras/conciliacao/conciliacao.component').then((m) => m.ConciliacaoComponent),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },
