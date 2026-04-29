@@ -47,6 +47,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/financeiro/resumo-financeiro/resumo-financeiro.component').then((m) => m.ResumoFinanceiroComponent),
   },
   {
+    path: 'financeiro/faturamento',
+    loadComponent: () => import('./pages/financeiro/faturamento/faturamento.component').then((m) => m.FaturamentoComponent),
+  },
+  {
+    path: 'financeiro/folha-pagamento',
+    loadComponent: () => import('./pages/financeiro/folha-pagamento/folha-pagamento.component').then((m) => m.FolhaPagamentoComponent),
+  },
+  {
+    path: 'financeiro/custo-fixo',
+    loadComponent: () => import('./pages/financeiro/custo-fixo/custo-fixo.component').then((m) => m.CustoFixoComponent),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },

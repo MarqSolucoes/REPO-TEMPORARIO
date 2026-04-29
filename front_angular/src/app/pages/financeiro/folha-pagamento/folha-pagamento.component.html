@@ -1,0 +1,1 @@
+<div class="page"><h1>Folha de Pagamento</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="error">{{error}}</p><ul><li *ngFor="let i of itens">#{{i.id}} - {{i.colaborador || '-'}} - {{i.valor || 0}}</li></ul></div>

@@ -14,9 +14,9 @@
 - [x] Página: Financeiro/Entradas
 - [x] Página: Financeiro/NotasFiscais
 - [x] Página: Financeiro/ResumoFinanceiro
-- [ ] Página: Financeiro/Faturamento
-- [ ] Página: Financeiro/FolhaPagamento
-- [ ] Página: Financeiro/CustoFixo
+- [x] Página: Financeiro/Faturamento
+- [x] Página: Financeiro/FolhaPagamento
+- [x] Página: Financeiro/CustoFixo
 - [ ] Página: Financeiro/DEF
 - [ ] Página: Financeiro/ETO
 - [ ] Página: Financeiro/FluxoCaixaConsolidado
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Páginas Financeiro/Entradas, NotasFiscais e ResumoFinanceiro iniciadas com integração inicial de API
-NEXT_STEP: Iniciar migração da Página Financeiro/Faturamento
+LAST_COMPLETED_STEP: Páginas Financeiro/Faturamento, FolhaPagamento e CustoFixo iniciadas com integração inicial de API
+NEXT_STEP: Iniciar migração da Página Financeiro/DEF
