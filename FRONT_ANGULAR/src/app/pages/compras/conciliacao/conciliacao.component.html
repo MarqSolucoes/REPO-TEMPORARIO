@@ -1,0 +1,310 @@
+<div class="conciliacao-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Conciliação NF</h1>
+
+  <div class="tab-bar mb-3">
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===0" [class.btn-outline-secondary]="activeTab!==0" (click)="obtemPedidosEmCompra()">
+      Em Compra [{{ pedidosEmCompra.length }}]
+    </button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===1" [class.btn-outline-secondary]="activeTab!==1" (click)="activeTab=1">
+      Notas Conciliadas [{{ pedidosConciliados.length }}]
+    </button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===2" [class.btn-outline-secondary]="activeTab!==2" (click)="obtemNotasReprovadasDiretoria()">
+      Notas Recusadas Diretoria [{{ notasReprovadasDiretoria.length }}]
+    </button>
+    <button class="btn btn-sm mr-1" [class.btn-primary]="activeTab===3" [class.btn-outline-secondary]="activeTab!==3" (click)="obtemNotasReprovadasFinanceiro()">
+      Notas Recusadas Financeiro [{{ notasReprovadasFinanceiro.length }}]
+    </button>
+  </div>
+
+  <!-- ===== Tab 0: Pedidos Em Compra ===== -->
+  <app-widget *ngIf="activeTab===0">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho texto-centro">Solicitação</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Entrega</th>
+            <th class="estilo-cabecalho">Centro de Custo</th>
+            <th class="estilo-cabecalho">Fornecedor</th>
+            <th class="estilo-cabecalho texto-centro">Valor Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pedidosEmCompra; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+            <td class="estilo-celula texto-centro">{{ row.solicitacaoCompra ? row.solicitacaoCompra.codigo : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataEntrega) }}</td>
+            <td class="estilo-celula">{{ centroCusto(row) }}</td>
+            <td class="estilo-celula">{{ row.fornecedor ? row.fornecedor.nomeFantasia : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorTotal) }}</td>
+          </tr>
+          <tr *ngIf="!pedidosEmCompra || pedidosEmCompra.length === 0">
+            <td class="estilo-celula texto-centro" colspan="7">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 1: Notas Conciliadas ===== -->
+  <app-widget *ngIf="activeTab===1">
+    <!-- Filtros -->
+    <div class="mb-3">
+      <h5 class="mb-2">Filtros</h5>
+      <div class="row">
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Fornecedor</label>
+          <select class="form-control" multiple [(ngModel)]="filtro_FornecedoresSelecionados" style="color:white;background:#1a1a2e;">
+            <option *ngFor="let f of filtro_Fornecedores; trackBy: trackByIndex" [value]="f">{{ f.nomeFantasia }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Número Pedido</label>
+          <input class="form-control" style="color:white;background:#1a1a2e;" [(ngModel)]="filtro_NumeroPedido" placeholder="Informe o número do pedido">
+        </div>
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Número NF</label>
+          <input class="form-control" style="color:white;background:#1a1a2e;" [(ngModel)]="filtro_NumeroNF" placeholder="Informe o número da nota fiscal">
+        </div>
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Data Inicial</label>
+          <input type="date" class="form-control" style="color:white;background:#1a1a2e;" [(ngModel)]="filtro_DataInicial">
+        </div>
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Data Final</label>
+          <input type="date" class="form-control" style="color:white;background:#1a1a2e;" [(ngModel)]="filtro_DataFinal">
+        </div>
+        <div class="col-md-4 mb-2 d-flex align-items-end gap-2">
+          <button class="btn btn-danger mr-2" (click)="limpaFiltrosConciliadas()">Limpar</button>
+          <button class="btn btn-success" (click)="obtemNotasConciliadas()">Pesquisar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Pedido</th>
+            <th class="estilo-cabecalho">Fornecedor</th>
+            <th class="estilo-cabecalho texto-centro">Nota Fiscal</th>
+            <th class="estilo-cabecalho">Nome</th>
+            <th class="estilo-cabecalho texto-centro">Data Vencimento</th>
+            <th class="estilo-cabecalho texto-centro">Valor</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pedidosConciliados; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.pedidoCompra ? row.pedidoCompra.codigo : '' }}</td>
+            <td class="estilo-celula">{{ row.pedidoCompra && row.pedidoCompra.fornecedor ? row.pedidoCompra.fornecedor.nomeFantasia : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ row.numeroNotaFiscal }}</td>
+            <td class="estilo-celula">{{ row.nome }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataVencimento) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataMoeda(row.valor) }}</td>
+            <td class="estilo-celula texto-centro">{{ statusNF(row.aprovada) }}</td>
+          </tr>
+          <tr *ngIf="!pedidosConciliados || pedidosConciliados.length === 0">
+            <td class="estilo-celula texto-centro" colspan="7">Use os filtros acima e clique em Pesquisar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 2: Notas Reprovadas Diretoria ===== -->
+  <app-widget *ngIf="activeTab===2">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">NF</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Número NF</th>
+            <th class="estilo-cabecalho texto-centro">Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Obra</th>
+            <th class="estilo-cabecalho">Cliente</th>
+            <th class="estilo-cabecalho texto-centro">CNPJ</th>
+            <th class="estilo-cabecalho texto-centro">Aprovador</th>
+            <th class="estilo-cabecalho texto-centro">Data Aprovação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of notasReprovadasDiretoria; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ n.notaFiscal }}</td>
+            <td class="estilo-celula">{{ n.descricaoNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.numeroNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.pedido }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataPedido) }}</td>
+            <td class="estilo-celula texto-centro">{{ n.obra }}</td>
+            <td class="estilo-celula">{{ n.cliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.cnpjCliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.usuarioAprovador }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataAprovacao) }}</td>
+          </tr>
+          <tr *ngIf="!notasReprovadasDiretoria || notasReprovadasDiretoria.length === 0">
+            <td class="estilo-celula texto-centro" colspan="10">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 3: Notas Reprovadas Financeiro ===== -->
+  <app-widget *ngIf="activeTab===3">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">NF</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Número NF</th>
+            <th class="estilo-cabecalho texto-centro">Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Obra</th>
+            <th class="estilo-cabecalho">Cliente</th>
+            <th class="estilo-cabecalho texto-centro">CNPJ</th>
+            <th class="estilo-cabecalho texto-centro">Aprovador</th>
+            <th class="estilo-cabecalho texto-centro">Data Aprovação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of notasReprovadasFinanceiro; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ n.notaFiscal }}</td>
+            <td class="estilo-celula">{{ n.descricaoNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.numeroNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.pedido }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataPedido) }}</td>
+            <td class="estilo-celula texto-centro">{{ n.obra }}</td>
+            <td class="estilo-celula">{{ n.cliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.cnpjCliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.usuarioAprovador }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataAprovacao) }}</td>
+          </tr>
+          <tr *ngIf="!notasReprovadasFinanceiro || notasReprovadasFinanceiro.length === 0">
+            <td class="estilo-celula texto-centro" colspan="10">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+</div>
+
+
+  <!-- ===== Tab 0: Pedidos Em Compra ===== -->
+  <app-widget *ngIf="activeTab===0">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">Código</th>
+            <th class="estilo-cabecalho texto-centro">Solicitação</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Entrega</th>
+            <th class="estilo-cabecalho">Centro de Custo</th>
+            <th class="estilo-cabecalho">Fornecedor</th>
+            <th class="estilo-cabecalho texto-centro">Valor Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pedidosEmCompra; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+            <td class="estilo-celula texto-centro">{{ row.solicitacaoCompra ? row.solicitacaoCompra.codigo : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(row.dataEntrega) }}</td>
+            <td class="estilo-celula">{{ centroCusto(row) }}</td>
+            <td class="estilo-celula">{{ row.fornecedor ? row.fornecedor.nomeFantasia : '' }}</td>
+            <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorTotal) }}</td>
+          </tr>
+          <tr *ngIf="!pedidosEmCompra || pedidosEmCompra.length === 0">
+            <td class="estilo-celula texto-centro" colspan="7">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 1: Notas Reprovadas Diretoria ===== -->
+  <app-widget *ngIf="activeTab===1">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">NF</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Número NF</th>
+            <th class="estilo-cabecalho texto-centro">Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Obra</th>
+            <th class="estilo-cabecalho">Cliente</th>
+            <th class="estilo-cabecalho texto-centro">CNPJ</th>
+            <th class="estilo-cabecalho texto-centro">Aprovador</th>
+            <th class="estilo-cabecalho texto-centro">Data Aprovação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of notasReprovadasDiretoria; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ n.notaFiscal }}</td>
+            <td class="estilo-celula">{{ n.descricaoNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.numeroNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.pedido }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataPedido) }}</td>
+            <td class="estilo-celula texto-centro">{{ n.obra }}</td>
+            <td class="estilo-celula">{{ n.cliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.cnpjCliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.usuarioAprovador }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataAprovacao) }}</td>
+          </tr>
+          <tr *ngIf="!notasReprovadasDiretoria || notasReprovadasDiretoria.length === 0">
+            <td class="estilo-celula texto-centro" colspan="10">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- ===== Tab 2: Notas Reprovadas Financeiro ===== -->
+  <app-widget *ngIf="activeTab===2">
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">NF</th>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Número NF</th>
+            <th class="estilo-cabecalho texto-centro">Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Data Pedido</th>
+            <th class="estilo-cabecalho texto-centro">Obra</th>
+            <th class="estilo-cabecalho">Cliente</th>
+            <th class="estilo-cabecalho texto-centro">CNPJ</th>
+            <th class="estilo-cabecalho texto-centro">Aprovador</th>
+            <th class="estilo-cabecalho texto-centro">Data Aprovação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of notasReprovadasFinanceiro; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ n.notaFiscal }}</td>
+            <td class="estilo-celula">{{ n.descricaoNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.numeroNotaFiscal }}</td>
+            <td class="estilo-celula texto-centro">{{ n.pedido }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataPedido) }}</td>
+            <td class="estilo-celula texto-centro">{{ n.obra }}</td>
+            <td class="estilo-celula">{{ n.cliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.cnpjCliente }}</td>
+            <td class="estilo-celula texto-centro">{{ n.usuarioAprovador }}</td>
+            <td class="estilo-celula texto-centro">{{ formataData(n.dataAprovacao) }}</td>
+          </tr>
+          <tr *ngIf="!notasReprovadasFinanceiro || notasReprovadasFinanceiro.length === 0">
+            <td class="estilo-celula texto-centro" colspan="10">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+

@@ -1,0 +1,55 @@
+<div class="cidade-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Cidades</h1>
+  <app-widget>
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho texto-centro">UF</th>
+            <th class="estilo-cabecalho">Nome</th>
+            <th class="estilo-cabecalho texto-centro">Alíquota ISS (%)</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of cidades; trackBy: trackByIndex">
+            <td class="estilo-celula texto-centro">{{ row.uf }}</td>
+            <td class="estilo-celula">{{ row.nome }}</td>
+            <td class="estilo-celula texto-centro">{{ row.aliquotaImpostoISS }}</td>
+            <td class="estilo-celula texto-centro">{{ row.ativo ? 'Ativa' : 'Inativa' }}</td>
+            <td class="estilo-celula texto-centro">
+              <button *ngIf="row.ativo && usuarioDTO?.cidadeAtivarDesativar" class="btn btn-sm btn-outline-danger mr-1" (click)="ativarDesativar(row.id, row.ativo)">Desativar</button>
+              <button *ngIf="!row.ativo && usuarioDTO?.cidadeAtivarDesativar" class="btn btn-sm btn-outline-success mr-1" (click)="ativarDesativar(row.id, row.ativo)">Ativar</button>
+              <button *ngIf="usuarioDTO?.cidadeEditar" class="btn btn-sm btn-outline-info" (click)="openEdit(row)">Editar</button>
+            </td>
+          </tr>
+          <tr *ngIf="!cidades || cidades.length === 0">
+            <td class="estilo-celula texto-centro" colspan="5">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <!-- Modal Edit -->
+  <div class="modal" [style.display]="modal_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">{{ modal_Titulo }}</h5></div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Alíquota ISS</label>
+            <input type="number" class="form-control" [(ngModel)]="cidade_AliquotaImpostoISS" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-dark" (click)="modal_Exibir = false">Cancelar</button>
+          <button class="btn btn-info" (click)="editarCidade()"><i class="fa fa-save mr-1"></i> Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modal_Exibir"></div>
+</div>

@@ -1,0 +1,94 @@
+<div class="perfil-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Perfis</h1>
+  <app-widget>
+    <div class="row mb-3">
+      <div class="col-auto ml-auto">
+        <button class="btn btn-outline-success" (click)="openNovo()">Novo Perfil</button>
+      </div>
+    </div>
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho">Descrição</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+            <th class="estilo-cabecalho texto-centro">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of perfis; trackBy: trackByIndex">
+            <td class="estilo-celula">{{ row.descricao }}</td>
+            <td class="estilo-celula texto-centro">{{ row.ativo ? 'Ativo' : 'Inativo' }}</td>
+            <td class="estilo-celula texto-centro">
+              <button *ngIf="row.ativo" class="btn btn-sm btn-outline-danger mr-1" (click)="ativarDesativar(row.id, row.ativo)">Desativar</button>
+              <button *ngIf="!row.ativo" class="btn btn-sm btn-outline-success mr-1" (click)="ativarDesativar(row.id, row.ativo)">Ativar</button>
+              <button class="btn btn-sm btn-outline-info" (click)="openEdit(row)">Editar</button>
+            </td>
+          </tr>
+          <tr *ngIf="!perfis || perfis.length === 0">
+            <td class="estilo-celula texto-centro" colspan="3">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+
+  <div class="modal" [style.display]="modal_Exibir ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">{{ modal_Titulo }}</h5></div>
+        <div class="modal-body">
+          <div class="form-group"><label>Descrição</label><input type="text" class="form-control" [(ngModel)]="perfil_Descricao" /></div>
+          <hr />
+          <h6>Permissões</h6>
+          <!-- Cargo -->
+          <div class="form-check"><input type="checkbox" class="form-check-input" id="pCargo" [(ngModel)]="perfil_Cargo" /><label class="form-check-label" for="pCargo">Cargo</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pCargoCad" [(ngModel)]="perfil_CargoCadastrar" [disabled]="!perfil_Cargo" /><label class="form-check-label" for="pCargoCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pCargoAD" [(ngModel)]="perfil_CargoAtivarDesativar" [disabled]="!perfil_Cargo" /><label class="form-check-label" for="pCargoAD">Ativar/Desativar</label></div>
+          <!-- Cliente -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pCliente" [(ngModel)]="perfil_Cliente" /><label class="form-check-label" for="pCliente">Cliente</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pClienteCad" [(ngModel)]="perfil_ClienteCadastrar" [disabled]="!perfil_Cliente" /><label class="form-check-label" for="pClienteCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pClienteEd" [(ngModel)]="perfil_ClienteEditar" [disabled]="!perfil_Cliente" /><label class="form-check-label" for="pClienteEd">Editar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pClienteAD" [(ngModel)]="perfil_ClienteAtivarDesativar" [disabled]="!perfil_Cliente" /><label class="form-check-label" for="pClienteAD">Ativar/Desativar</label></div>
+          <!-- Fornecedor -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pForn" [(ngModel)]="perfil_Fornecedor" /><label class="form-check-label" for="pForn">Fornecedor</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pFornCad" [(ngModel)]="perfil_FornecedorCadastrar" [disabled]="!perfil_Fornecedor" /><label class="form-check-label" for="pFornCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pFornEd" [(ngModel)]="perfil_FornecedorEditar" [disabled]="!perfil_Fornecedor" /><label class="form-check-label" for="pFornEd">Editar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pFornAD" [(ngModel)]="perfil_FornecedorAtivarDesativar" [disabled]="!perfil_Fornecedor" /><label class="form-check-label" for="pFornAD">Ativar/Desativar</label></div>
+          <!-- Material -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pMat" [(ngModel)]="perfil_Material" /><label class="form-check-label" for="pMat">Material</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pMatCad" [(ngModel)]="perfil_MaterialCadastrar" [disabled]="!perfil_Material" /><label class="form-check-label" for="pMatCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pMatEd" [(ngModel)]="perfil_MaterialEditar" [disabled]="!perfil_Material" /><label class="form-check-label" for="pMatEd">Editar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pMatAD" [(ngModel)]="perfil_MaterialAtivarDesativar" [disabled]="!perfil_Material" /><label class="form-check-label" for="pMatAD">Ativar/Desativar</label></div>
+          <!-- Categoria Material -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pCatMat" [(ngModel)]="perfil_CategoriaMaterial" /><label class="form-check-label" for="pCatMat">Categoria de Material</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pCatMatCad" [(ngModel)]="perfil_CategoriaMaterialCadastrar" [disabled]="!perfil_CategoriaMaterial" /><label class="form-check-label" for="pCatMatCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pCatMatAD" [(ngModel)]="perfil_CategoriaMaterialAtivarDesativar" [disabled]="!perfil_CategoriaMaterial" /><label class="form-check-label" for="pCatMatAD">Ativar/Desativar</label></div>
+          <!-- Perfil -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pPerfil" [(ngModel)]="perfil_Perfil" /><label class="form-check-label" for="pPerfil">Perfil</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pPerfilCad" [(ngModel)]="perfil_PerfilCadastrar" [disabled]="!perfil_Perfil" /><label class="form-check-label" for="pPerfilCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pPerfilEd" [(ngModel)]="perfil_PerfilEditar" [disabled]="!perfil_Perfil" /><label class="form-check-label" for="pPerfilEd">Editar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pPerfilAD" [(ngModel)]="perfil_PerfilAtivarDesativar" [disabled]="!perfil_Perfil" /><label class="form-check-label" for="pPerfilAD">Ativar/Desativar</label></div>
+          <!-- Usuário -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pUsuario" [(ngModel)]="perfil_Usuario" /><label class="form-check-label" for="pUsuario">Usuário</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pUsuarioCad" [(ngModel)]="perfil_UsuarioCadastrar" [disabled]="!perfil_Usuario" /><label class="form-check-label" for="pUsuarioCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pUsuarioEd" [(ngModel)]="perfil_UsuarioEditar" [disabled]="!perfil_Usuario" /><label class="form-check-label" for="pUsuarioEd">Editar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pUsuarioSenha" [(ngModel)]="perfil_UsuarioTrocarSenha" [disabled]="!perfil_Usuario" /><label class="form-check-label" for="pUsuarioSenha">Trocar Senha</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pUsuarioAD" [(ngModel)]="perfil_UsuarioAtivarDesativar" [disabled]="!perfil_Usuario" /><label class="form-check-label" for="pUsuarioAD">Ativar/Desativar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pUsuarioHL" [(ngModel)]="perfil_UsuarioHabilitarDesabilitarLogin" [disabled]="!perfil_Usuario" /><label class="form-check-label" for="pUsuarioHL">Habilitar/Desabilitar Login</label></div>
+          <!-- Obra -->
+          <div class="form-check mt-2"><input type="checkbox" class="form-check-input" id="pObra" [(ngModel)]="perfil_Obra" /><label class="form-check-label" for="pObra">Obra</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pObraCad" [(ngModel)]="perfil_ObraCadastrar" [disabled]="!perfil_Obra" /><label class="form-check-label" for="pObraCad">Cadastrar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pObraEd" [(ngModel)]="perfil_ObraEditar" [disabled]="!perfil_Obra" /><label class="form-check-label" for="pObraEd">Editar</label></div>
+          <div class="form-check ml-3"><input type="checkbox" class="form-check-input" id="pObraVis" [(ngModel)]="perfil_ObraVisualizar" [disabled]="!perfil_Obra" /><label class="form-check-label" for="pObraVis">Visualizar</label></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-dark" (click)="modal_Exibir = false">Cancelar</button>
+          <button class="btn btn-success" (click)="salvar()" [disabled]="controle_Salvando">{{ controle_Salvando ? 'Aguarde...' : (modal_ExibirBotaoCadastrar ? 'Cadastrar' : 'Editar') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modal_Exibir"></div>
+</div>

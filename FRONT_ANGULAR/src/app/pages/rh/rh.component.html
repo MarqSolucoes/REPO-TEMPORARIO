@@ -1,0 +1,27 @@
+<div class="rh-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">RH</h1>
+  <app-widget>
+    <div class="table-card">
+      <table class="estilo-tabela">
+        <thead>
+          <tr>
+            <th class="estilo-cabecalho">Nome</th>
+            <th class="estilo-cabecalho">Cargo</th>
+            <th class="estilo-cabecalho texto-centro">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of funcionarios; trackBy: trackByIndex">
+            <td class="estilo-celula">{{ row.nome }}</td>
+            <td class="estilo-celula">{{ row.cargo }}</td>
+            <td class="estilo-celula texto-centro">{{ row.ativo ? 'Ativo' : 'Inativo' }}</td>
+          </tr>
+          <tr *ngIf="!funcionarios || funcionarios.length === 0">
+            <td class="estilo-celula texto-centro" colspan="3">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-widget>
+</div>
