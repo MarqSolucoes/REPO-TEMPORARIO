@@ -26,5 +26,5 @@
 - [~] Página: RH
 - [~] Página: Error
 
-LAST_COMPLETED_STEP: Ajuste de bootstrap Angular (zone.js + tratamento explícito de erro)
-NEXT_STEP: Executar fechamento dos itens faltantes do MIGRATION_PARITY_REPORT.md por prioridade de negócio
+LAST_COMPLETED_STEP: Configurações/Cliente iniciado com CRUD básico e integração de API
+NEXT_STEP: Migrar Configurações/Cidade e Configurações/Usuário com o mesmo padrão de CRUD

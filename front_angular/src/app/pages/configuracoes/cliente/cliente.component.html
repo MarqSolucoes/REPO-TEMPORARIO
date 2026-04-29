@@ -1,0 +1,3 @@
+<div class="page"><h1>Configurações / Cliente</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="error">{{error}}</p>
+<form [formGroup]="form" (ngSubmit)="salvar()"><input formControlName="nome" placeholder="Nome do cliente"/><button type="submit">{{editId?'Atualizar':'Cadastrar'}}</button><button type="button" (click)="novo()">Novo</button></form>
+<ul><li *ngFor="let c of itens">{{c.id}} - {{c.nome}} <button type="button" (click)="editar(c)">Editar</button></li></ul></div>

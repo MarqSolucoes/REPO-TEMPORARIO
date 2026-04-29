@@ -64,6 +64,7 @@ export const routes: Routes = [
   { path: 'financeiro/pedido-interno', loadComponent: () => import('./pages/financeiro/pedido-interno/pedido-interno.component').then((m) => m.PedidoInternoComponent), },
   { path: 'financeiro/pedido-interno-recorrente', loadComponent: () => import('./pages/financeiro/pedido-interno-recorrente/pedido-interno-recorrente.component').then((m) => m.PedidoInternoRecorrenteComponent), },
   { path: 'configuracoes', loadComponent: () => import('./pages/configuracoes/configuracoes.component').then((m) => m.ConfiguracoesComponent), },
+  { path: 'configuracoes/cliente', loadComponent: () => import('./pages/configuracoes/cliente/cliente.component').then((m) => m.ClienteComponent), },
   { path: 'rh', loadComponent: () => import('./pages/rh/rh.component').then((m) => m.RhComponent), },
   { path: 'error', loadComponent: () => import('./pages/error/error.component').then((m) => m.ErrorComponent), },
   {
