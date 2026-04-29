@@ -26,5 +26,5 @@
 - [~] Página: RH
 - [~] Página: Error
 
-LAST_COMPLETED_STEP: Projeto padronizado para Angular v20 (dependências e toolchain)
+LAST_COMPLETED_STEP: Ajuste de bootstrap Angular (zone.js + tratamento explícito de erro)
 NEXT_STEP: Executar fechamento dos itens faltantes do MIGRATION_PARITY_REPORT.md por prioridade de negócio
