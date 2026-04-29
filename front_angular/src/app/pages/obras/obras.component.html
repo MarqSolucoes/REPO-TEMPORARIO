@@ -1,0 +1,18 @@
+<div class="obras-page">
+  <h1>Obras</h1>
+  <p *ngIf="isLoading">Carregando...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <table *ngIf="obras.length > 0; else semObras">
+    <thead><tr><th>ID</th><th>Código</th><th>Descrição</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let obra of obras">
+        <td>{{ obra.id }}</td>
+        <td>{{ obra.codigo || '-' }}</td>
+        <td>{{ obra.descricao }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #semObras><p>Nenhuma obra encontrada.</p></ng-template>
+</div>

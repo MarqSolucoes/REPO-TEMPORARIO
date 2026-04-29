@@ -6,7 +6,7 @@
 - [x] Layout base (componente shell criado)
 - [x] Página: Dashboard
 - [x] Página: Login
-- [ ] Página: Obras
+- [~] Página: Obras (listagem inicial + integração de API)
 - [ ] Página: ObraDetalhe
 - [ ] Página: Compras/OrdemCompra
 - [ ] Página: Compras/Cotacao
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Página Login concluída com autenticação integrada
-NEXT_STEP: Iniciar migração da Página Obras
+LAST_COMPLETED_STEP: Página Obras iniciada com listagem e integração inicial de API
+NEXT_STEP: Migrar cadastro/edição da Página Obras com formulários reativos
