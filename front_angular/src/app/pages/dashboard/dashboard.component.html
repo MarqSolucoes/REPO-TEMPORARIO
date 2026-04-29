@@ -1,0 +1,78 @@
+<div class="dashboard-page">
+  <h1 class="page-title">WH Engenharia</h1>
+
+  <p class="status" *ngIf="isLoading">Carregando...</p>
+  <p class="status status--error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="status status--ok" *ngIf="successMessage">{{ successMessage }}</p>
+
+  <div class="dashboard-actions">
+    <button type="button" class="btn btn-primary" (click)="abrirModalEdicaoDataNotaFiscal()">Editar vencimento NF</button>
+    <button type="button" class="btn btn-info" (click)="abrirModalTipoSolicitacao()">Nova solicitação</button>
+  </div>
+
+  <section class="card-shell" *ngIf="modalEdicaoDataNotaFiscalExibir">
+    <div class="afm-hero">
+      <div>
+        <span class="afm-hero__eyebrow">Nota Fiscal</span>
+        <h3 class="afm-hero__title">Edição de data de vencimento</h3>
+      </div>
+    </div>
+
+    <table class="estilo-tabela tabela-identidade" *ngIf="modalEdicaoDataNotaFiscalNotas.length > 0; else semNotas">
+      <thead><tr><th>Nome</th><th>Data de Vencimento</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let nota of modalEdicaoDataNotaFiscalNotas">
+          <td>{{ nota.nome }}</td>
+          <td>{{ nota.dataVencimento }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #semNotas><div class="afm-empty-state"><strong>Nenhuma nota fiscal encontrada</strong></div></ng-template>
+
+    <div class="afm-footer">
+      <button type="button" class="btn btn-success" (click)="editarDataVencimentoNF()">Salvar Edição</button>
+      <button type="button" class="btn btn-light" (click)="fecharModalEdicaoDataNotaFiscal()">Fechar</button>
+    </div>
+  </section>
+
+  <section class="card-shell" *ngIf="modalNovoPedidoCompraTipoPedidoExibir">
+    <div class="afm-hero">
+      <h3 class="afm-hero__title">Nova solicitação (Formulário reativo)</h3>
+    </div>
+
+    <div class="afm-tipo-grid">
+      <button type="button" class="afm-tipo-btn" (click)="abreModalNovaSolicitacao(false)">Materiais</button>
+      <button type="button" class="afm-tipo-btn" (click)="abreModalNovaSolicitacao(true)">Serviço</button>
+    </div>
+
+    <form [formGroup]="novaSolicitacaoForm" class="form-grid">
+      <label>Título <input type="text" formControlName="titulo" /></label>
+      <label>Data Entrega <input type="date" formControlName="dataEntrega" /></label>
+      <label>Valor Total <input type="number" formControlName="valorTotal" /></label>
+      <label>Observação <textarea formControlName="observacao"></textarea></label>
+      <small class="status status--error" *ngIf="novaSolicitacaoForm.controls.titulo.invalid && novaSolicitacaoForm.controls.titulo.touched">Título inválido.</small>
+    </form>
+
+    <table class="estilo-tabela tabela-identidade" *ngIf="rascunhosSolicitacoes.length > 0; else semRascunhos">
+      <thead><tr><th>Data</th><th>Título</th><th>Ações</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let row of rascunhosSolicitacoes">
+          <td>{{ formataData(row.dataCadastro) }}</td>
+          <td>{{ row.titulo }}</td>
+          <td>
+            <button type="button" class="btn btn-info" (click)="continuaRascunho(row)">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="excluiRascunho(row.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #semRascunhos><div class="afm-empty-state"><strong>Nenhum rascunho salvo</strong></div></ng-template>
+
+    <div class="afm-footer">
+      <button type="button" class="btn btn-success" (click)="salvarNovaSolicitacaoRascunho()">Validar rascunho</button>
+      <button type="button" class="btn btn-light" (click)="fecharModalTipoSolicitacao()">Fechar</button>
+    </div>
+  </section>
+</div>
