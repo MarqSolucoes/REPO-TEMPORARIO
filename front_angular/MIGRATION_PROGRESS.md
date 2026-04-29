@@ -4,8 +4,8 @@
 - [x] Setup inicial Angular (estrutura base + bootstrap standalone configurados)
 - [x] Configuração de rotas (arquivo base criado)
 - [x] Layout base (componente shell criado)
-- [ ] Página: Dashboard
-- [ ] Página: Login
+- [x] Página: Dashboard
+- [~] Página: Login (estrutura inicial criada)
 - [ ] Página: Obras
 - [ ] Página: ObraDetalhe
 - [ ] Página: Compras/OrdemCompra
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Dashboard com persistência de rascunho (criar/atualizar) e continuidade de edição
-NEXT_STEP: Migrar carregamento de notas fiscais para edição de vencimento e completar fluxos restantes do Dashboard
+LAST_COMPLETED_STEP: Página Dashboard concluída (etapa incremental atual)
+NEXT_STEP: Completar Página Login com integração real de autenticação
