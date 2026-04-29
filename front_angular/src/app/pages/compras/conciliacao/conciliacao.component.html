@@ -1,0 +1,14 @@
+<div class="conciliacao-page">
+  <h1>Conciliação</h1>
+  <form [formGroup]="filtroForm" (ngSubmit)="buscar()">
+    <input type="text" formControlName="termo" placeholder="Pesquisar" />
+    <button type="submit">Buscar</button>
+  </form>
+  <p *ngIf="isLoading">Carregando...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <table *ngIf="conciliacoes.length; else vazio">
+    <thead><tr><th>ID</th><th>Fornecedor</th><th>Nota</th></tr></thead>
+    <tbody><tr *ngFor="let c of conciliacoes"><td>{{ c.id }}</td><td>{{ c.fornecedor || '-' }}</td><td>{{ c.numeroNota || '-' }}</td></tr></tbody>
+  </table>
+  <ng-template #vazio><p>Nenhuma conciliação encontrada.</p></ng-template>
+</div>

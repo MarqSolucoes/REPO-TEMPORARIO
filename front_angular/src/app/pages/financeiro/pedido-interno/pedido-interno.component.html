@@ -1,0 +1,1 @@
+<div class="page"><h1>Pedido Interno</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="error">{{error}}</p><p *ngIf="extra">{{extra}}</p><ul><li *ngFor="let i of itens">{{i.id}} - {{i.descricao || i.obra || i.codigo || '-'}}</li></ul></div>

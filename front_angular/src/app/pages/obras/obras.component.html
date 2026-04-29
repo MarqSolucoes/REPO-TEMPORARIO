@@ -1,0 +1,35 @@
+<div class="obras-page">
+  <h1>Obras</h1>
+  <p *ngIf="isLoading">Carregando...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="ok" *ngIf="successMessage">{{ successMessage }}</p>
+
+  <section class="obra-form">
+    <h2>{{ obraEmEdicaoId ? 'Editar obra' : 'Nova obra' }}</h2>
+    <form [formGroup]="obraForm" (ngSubmit)="salvarObra()">
+      <label>Descrição <input type="text" formControlName="descricao" /></label>
+      <label>Código proposta <input type="text" formControlName="codigoProposta" /></label>
+      <label>Nº pedido cliente <input type="text" formControlName="numeroPedidoCliente" /></label>
+      <label>Endereço de entrega <input type="text" formControlName="enderecoDeEntrega" /></label>
+      <small class="error" *ngIf="obraForm.controls.descricao.invalid && obraForm.controls.descricao.touched">Descrição obrigatória.</small>
+      <div class="actions">
+        <button type="button" (click)="prepararNovaObra()">Limpar</button>
+        <button type="submit">{{ obraEmEdicaoId ? 'Atualizar' : 'Cadastrar' }}</button>
+      </div>
+    </form>
+  </section>
+
+  <table *ngIf="obras.length > 0; else semObras">
+    <thead><tr><th>ID</th><th>Código</th><th>Descrição</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let obra of obras">
+        <td>{{ obra.id }}</td>
+        <td>{{ obra.codigo || '-' }}</td>
+        <td>{{ obra.descricao }}</td>
+        <td><button type="button" (click)="editarObra(obra)">Editar</button> <a [routerLink]="['/obras', obra.id]">Detalhes</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #semObras><p>Nenhuma obra encontrada.</p></ng-template>
+</div>

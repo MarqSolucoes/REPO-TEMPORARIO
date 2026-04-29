@@ -1,0 +1,3 @@
+<div class="page"><h1>Configurações / Cidade</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="error">{{error}}</p>
+<form [formGroup]="form" (ngSubmit)="salvar()"><input formControlName="nome" placeholder="Nome"/><input formControlName="uf" placeholder="UF" maxlength="2"/><button type="submit">{{editId?'Atualizar':'Cadastrar'}}</button><button type="button" (click)="novo()">Novo</button></form>
+<ul><li *ngFor="let c of itens">{{c.id}} - {{c.nome}}/{{c.uf}} <button type="button" (click)="editar(c)">Editar</button></li></ul></div>

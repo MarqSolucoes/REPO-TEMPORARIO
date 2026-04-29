@@ -1,0 +1,10 @@
+<div class="cotacao-page">
+  <h1>Cotações</h1>
+  <p *ngIf="isLoading">Carregando...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <table *ngIf="cotacoes.length; else vazio">
+    <thead><tr><th>ID</th><th>Código</th><th>Status</th></tr></thead>
+    <tbody><tr *ngFor="let c of cotacoes"><td>{{ c.id }}</td><td>{{ c.codigo || '-' }}</td><td>{{ c.status || '-' }}</td></tr></tbody>
+  </table>
+  <ng-template #vazio><p>Nenhuma cotação encontrada.</p></ng-template>
+</div>
