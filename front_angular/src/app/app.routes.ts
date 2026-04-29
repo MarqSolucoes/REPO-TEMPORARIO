@@ -67,6 +67,11 @@ export const routes: Routes = [
   { path: 'configuracoes/cliente', loadComponent: () => import('./pages/configuracoes/cliente/cliente.component').then((m) => m.ClienteComponent), },
   { path: 'configuracoes/cidade', loadComponent: () => import('./pages/configuracoes/cidade/cidade.component').then((m) => m.CidadeComponent), },
   { path: 'configuracoes/usuario', loadComponent: () => import('./pages/configuracoes/usuario/usuario.component').then((m) => m.UsuarioComponent), },
+  { path: 'configuracoes/perfil', loadComponent: () => import('./pages/configuracoes/perfil/perfil.component').then((m) => m.PerfilComponent), },
+  { path: 'configuracoes/material-categoria', loadComponent: () => import('./pages/configuracoes/material-categoria/material-categoria.component').then((m) => m.MaterialCategoriaComponent), },
+  { path: 'configuracoes/material', loadComponent: () => import('./pages/configuracoes/material/material.component').then((m) => m.MaterialComponent), },
+  { path: 'configuracoes/cargo', loadComponent: () => import('./pages/configuracoes/cargo/cargo.component').then((m) => m.CargoComponent), },
+  { path: 'configuracoes/fornecedor', loadComponent: () => import('./pages/configuracoes/fornecedor/fornecedor.component').then((m) => m.FornecedorComponent), },
   { path: 'rh', loadComponent: () => import('./pages/rh/rh.component').then((m) => m.RhComponent), },
   { path: 'error', loadComponent: () => import('./pages/error/error.component').then((m) => m.ErrorComponent), },
   {

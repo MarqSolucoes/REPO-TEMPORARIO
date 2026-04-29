@@ -26,5 +26,5 @@
 - [~] Página: RH
 - [~] Página: Error
 
-LAST_COMPLETED_STEP: Configurações/Cidade e Configurações/Usuário iniciados com CRUD básico e integração de API
-NEXT_STEP: Migrar Configurações/Fornecedor, Cargo, Material, MaterialCategoria e Perfil com CRUD + validações
+LAST_COMPLETED_STEP: Configurações/Fornecedor, Cargo, Material, MaterialCategoria e Perfil iniciados com CRUD básico
+NEXT_STEP: Revisar paridade funcional detalhada de cada submódulo de Configurações e ajustar campos/regras avançadas
