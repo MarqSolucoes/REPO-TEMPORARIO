@@ -22,9 +22,9 @@
 - [x] Página: Financeiro/FluxoCaixaConsolidado
 - [x] Página: Financeiro/PedidoInterno
 - [x] Página: Financeiro/PedidoInternoRecorrente
-- [ ] Página: Configurações (Cliente/Cidade/Usuário/Fornecedor/Cargo/Material/MaterialCategoria/Perfil)
-- [ ] Página: RH
-- [ ] Página: Error
+- [x] Página: Configurações (Cliente/Cidade/Usuário/Fornecedor/Cargo/Material/MaterialCategoria/Perfil)
+- [x] Página: RH
+- [x] Página: Error
 
-LAST_COMPLETED_STEP: Páginas Financeiro/DEF, ETO, FluxoCaixaConsolidado, PedidoInterno e PedidoInternoRecorrente iniciadas com integração inicial de API
-NEXT_STEP: Iniciar migração das páginas de Configurações
+LAST_COMPLETED_STEP: Páginas Configurações, RH e Error iniciadas/concluídas no escopo incremental
+NEXT_STEP: Revisão final de paridade funcional e refinamento visual completo
