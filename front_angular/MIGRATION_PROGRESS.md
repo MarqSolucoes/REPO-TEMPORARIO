@@ -26,5 +26,5 @@
 - [~] Página: RH
 - [~] Página: Error
 
-LAST_COMPLETED_STEP: Layout global atualizado com navegação entre páginas migradas
+LAST_COMPLETED_STEP: Projeto padronizado para Angular v20 (dependências e toolchain)
 NEXT_STEP: Executar fechamento dos itens faltantes do MIGRATION_PARITY_REPORT.md por prioridade de negócio
