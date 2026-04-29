@@ -17,14 +17,14 @@
 - [x] Página: Financeiro/Faturamento
 - [x] Página: Financeiro/FolhaPagamento
 - [x] Página: Financeiro/CustoFixo
-- [ ] Página: Financeiro/DEF
-- [ ] Página: Financeiro/ETO
-- [ ] Página: Financeiro/FluxoCaixaConsolidado
-- [ ] Página: Financeiro/PedidoInterno
-- [ ] Página: Financeiro/PedidoInternoRecorrente
+- [x] Página: Financeiro/DEF
+- [x] Página: Financeiro/ETO
+- [x] Página: Financeiro/FluxoCaixaConsolidado
+- [x] Página: Financeiro/PedidoInterno
+- [x] Página: Financeiro/PedidoInternoRecorrente
 - [ ] Página: Configurações (Cliente/Cidade/Usuário/Fornecedor/Cargo/Material/MaterialCategoria/Perfil)
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Páginas Financeiro/Faturamento, FolhaPagamento e CustoFixo iniciadas com integração inicial de API
-NEXT_STEP: Iniciar migração da Página Financeiro/DEF
+LAST_COMPLETED_STEP: Páginas Financeiro/DEF, ETO, FluxoCaixaConsolidado, PedidoInterno e PedidoInternoRecorrente iniciadas com integração inicial de API
+NEXT_STEP: Iniciar migração das páginas de Configurações

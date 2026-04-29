@@ -58,6 +58,11 @@ export const routes: Routes = [
     path: 'financeiro/custo-fixo',
     loadComponent: () => import('./pages/financeiro/custo-fixo/custo-fixo.component').then((m) => m.CustoFixoComponent),
   },
+  { path: 'financeiro/def', loadComponent: () => import('./pages/financeiro/def/def.component').then((m) => m.DefComponent), },
+  { path: 'financeiro/eto', loadComponent: () => import('./pages/financeiro/eto/eto.component').then((m) => m.EtoComponent), },
+  { path: 'financeiro/fluxo-caixa-consolidado', loadComponent: () => import('./pages/financeiro/fluxo-caixa-consolidado/fluxo-caixa-consolidado.component').then((m) => m.FluxoCaixaConsolidadoComponent), },
+  { path: 'financeiro/pedido-interno', loadComponent: () => import('./pages/financeiro/pedido-interno/pedido-interno.component').then((m) => m.PedidoInternoComponent), },
+  { path: 'financeiro/pedido-interno-recorrente', loadComponent: () => import('./pages/financeiro/pedido-interno-recorrente/pedido-interno-recorrente.component').then((m) => m.PedidoInternoRecorrenteComponent), },
   {
     path: '**',
     redirectTo: 'dashboard',
