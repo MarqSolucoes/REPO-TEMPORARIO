@@ -35,6 +35,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/compras/conciliacao/conciliacao.component').then((m) => m.ConciliacaoComponent),
   },
   {
+    path: 'financeiro/entradas',
+    loadComponent: () => import('./pages/financeiro/entradas/entradas.component').then((m) => m.EntradasComponent),
+  },
+  {
+    path: 'financeiro/notas-fiscais',
+    loadComponent: () => import('./pages/financeiro/notas-fiscais/notas-fiscais.component').then((m) => m.NotasFiscaisComponent),
+  },
+  {
+    path: 'financeiro/resumo-financeiro',
+    loadComponent: () => import('./pages/financeiro/resumo-financeiro/resumo-financeiro.component').then((m) => m.ResumoFinanceiroComponent),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },

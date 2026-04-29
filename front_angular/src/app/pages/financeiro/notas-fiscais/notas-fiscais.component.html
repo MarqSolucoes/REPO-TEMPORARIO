@@ -1,0 +1,1 @@
+<div class="page"><h1>Notas Fiscais</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="errorMessage">{{errorMessage}}</p><ul><li *ngFor="let n of notas">#{{n.id}} - {{n.nome || '-'}} - {{n.valor || 0}}</li></ul></div>

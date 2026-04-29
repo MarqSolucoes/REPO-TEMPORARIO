@@ -11,9 +11,9 @@
 - [x] Página: Compras/OrdemCompra
 - [x] Página: Compras/Cotacao
 - [x] Página: Compras/Conciliacao
-- [ ] Página: Financeiro/Entradas
-- [ ] Página: Financeiro/NotasFiscais
-- [ ] Página: Financeiro/ResumoFinanceiro
+- [x] Página: Financeiro/Entradas
+- [x] Página: Financeiro/NotasFiscais
+- [x] Página: Financeiro/ResumoFinanceiro
 - [ ] Página: Financeiro/Faturamento
 - [ ] Página: Financeiro/FolhaPagamento
 - [ ] Página: Financeiro/CustoFixo
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Páginas Compras/OrdemCompra, Cotação e Conciliação iniciadas com integração inicial de API
-NEXT_STEP: Iniciar migração da Página Financeiro/Entradas
+LAST_COMPLETED_STEP: Páginas Financeiro/Entradas, NotasFiscais e ResumoFinanceiro iniciadas com integração inicial de API
+NEXT_STEP: Iniciar migração da Página Financeiro/Faturamento

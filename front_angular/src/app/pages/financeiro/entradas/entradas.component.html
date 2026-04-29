@@ -1,0 +1,1 @@
+<div class="page"><h1>Entradas</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="errorMessage">{{errorMessage}}</p><ul><li *ngFor="let e of entradas">#{{e.id}} - {{e.descricao || '-'}} - {{e.valor || 0}}</li></ul></div>
