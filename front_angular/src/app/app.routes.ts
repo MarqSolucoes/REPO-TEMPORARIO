@@ -65,6 +65,8 @@ export const routes: Routes = [
   { path: 'financeiro/pedido-interno-recorrente', loadComponent: () => import('./pages/financeiro/pedido-interno-recorrente/pedido-interno-recorrente.component').then((m) => m.PedidoInternoRecorrenteComponent), },
   { path: 'configuracoes', loadComponent: () => import('./pages/configuracoes/configuracoes.component').then((m) => m.ConfiguracoesComponent), },
   { path: 'configuracoes/cliente', loadComponent: () => import('./pages/configuracoes/cliente/cliente.component').then((m) => m.ClienteComponent), },
+  { path: 'configuracoes/cidade', loadComponent: () => import('./pages/configuracoes/cidade/cidade.component').then((m) => m.CidadeComponent), },
+  { path: 'configuracoes/usuario', loadComponent: () => import('./pages/configuracoes/usuario/usuario.component').then((m) => m.UsuarioComponent), },
   { path: 'rh', loadComponent: () => import('./pages/rh/rh.component').then((m) => m.RhComponent), },
   { path: 'error', loadComponent: () => import('./pages/error/error.component').then((m) => m.ErrorComponent), },
   {

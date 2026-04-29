@@ -1,0 +1,3 @@
+<div class="page"><h1>Configurações / Usuário</h1><p *ngIf="isLoading">Carregando...</p><p class="error" *ngIf="error">{{error}}</p>
+<form [formGroup]="form" (ngSubmit)="salvar()"><input formControlName="nome" placeholder="Nome"/><input formControlName="email" placeholder="Email"/><button type="submit">{{editId?'Atualizar':'Cadastrar'}}</button><button type="button" (click)="novo()">Novo</button></form>
+<ul><li *ngFor="let u of itens">{{u.id}} - {{u.nome}} ({{u.email}}) <button type="button" (click)="editar(u)">Editar</button></li></ul></div>
