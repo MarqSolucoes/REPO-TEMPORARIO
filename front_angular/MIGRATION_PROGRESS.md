@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Dashboard com Reactive Forms inicial e validação de nova solicitação
-NEXT_STEP: Integrar persistência real do formulário de nova solicitação e migração completa de continuidade de rascunho
+LAST_COMPLETED_STEP: Dashboard com persistência de rascunho (criar/atualizar) e continuidade de edição
+NEXT_STEP: Migrar carregamento de notas fiscais para edição de vencimento e completar fluxos restantes do Dashboard

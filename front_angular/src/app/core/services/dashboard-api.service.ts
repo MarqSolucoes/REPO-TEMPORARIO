@@ -3,6 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NotaFiscalVencimento, RascunhoSolicitacao } from '../models/dashboard.models';
 
+interface SalvarRascunhoPayload {
+  id?: number;
+  titulo: string;
+  objetoSerializado: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class DashboardApiService {
   constructor(private readonly http: HttpClient) {}
@@ -13,6 +19,14 @@ export class DashboardApiService {
 
   excluiRascunho(id: number): Observable<unknown> {
     return this.http.delete(`/SolicitacaoCompraRascunho/${id}`);
+  }
+
+  salvaRascunho(payload: SalvarRascunhoPayload): Observable<unknown> {
+    return this.http.post('/SolicitacaoCompraRascunho', payload);
+  }
+
+  atualizaRascunho(payload: SalvarRascunhoPayload): Observable<unknown> {
+    return this.http.put('/SolicitacaoCompraRascunho', payload);
   }
 
   editarDataVencimentoNF(notas: NotaFiscalVencimento[]): Observable<unknown> {

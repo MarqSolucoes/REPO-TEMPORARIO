@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
 
   modalEdicaoDataNotaFiscalNotas: NotaFiscalVencimento[] = [];
   rascunhosSolicitacoes: RascunhoSolicitacao[] = [];
+  rascunhoEmEdicaoId: number | null = null;
 
   novaSolicitacaoForm = this.formBuilder.nonNullable.group({
     tipo: this.formBuilder.nonNullable.control<'Material' | 'Servico'>('Material'),
@@ -107,11 +108,50 @@ export class DashboardComponent implements OnInit {
     }
 
     const formValue = this.novaSolicitacaoForm.getRawValue();
-    this.successMessage = `Rascunho ${formValue.tipo.toLowerCase()} pronto para integração de API.`;
+    const payload = {
+      id: this.rascunhoEmEdicaoId ?? undefined,
+      titulo: formValue.titulo,
+      objetoSerializado: JSON.stringify({
+        servico: formValue.tipo === 'Servico',
+        dataEntrega: formValue.dataEntrega,
+        titulo: formValue.titulo,
+        valorTotal: formValue.valorTotal,
+        descricao: formValue.observacao,
+      }),
+    };
+
+    this.isLoading = true;
+    const requisicao$ = this.rascunhoEmEdicaoId ? this.dashboardApi.atualizaRascunho(payload) : this.dashboardApi.salvaRascunho(payload);
+    requisicao$
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: () => {
+          this.successMessage = this.rascunhoEmEdicaoId ? 'Rascunho atualizado com sucesso.' : 'Rascunho criado com sucesso.';
+          this.rascunhoEmEdicaoId = null;
+          this.obtemRascunhos();
+        },
+        error: () => {
+          this.errorMessage = 'Erro ao salvar rascunho.';
+        },
+      });
   }
 
   continuaRascunho(row: RascunhoSolicitacao): void {
-    this.successMessage = `Fluxo de edição do rascunho \"${row.titulo}\" será migrado no próximo passo.`;
+    try {
+      const objeto = row.objetoSerializado ? JSON.parse(row.objetoSerializado) : null;
+      this.rascunhoEmEdicaoId = row.id;
+      this.modalNovoPedidoCompraTipoPedidoExibir = true;
+      this.novaSolicitacaoForm.patchValue({
+        tipo: objeto?.servico ? 'Servico' : 'Material',
+        titulo: objeto?.titulo ?? row.titulo ?? '',
+        dataEntrega: objeto?.dataEntrega ?? '',
+        valorTotal: objeto?.valorTotal ?? 0,
+        observacao: objeto?.descricao ?? '',
+      });
+      this.successMessage = `Rascunho "${row.titulo}" carregado para edição.`;
+    } catch {
+      this.errorMessage = 'Não foi possível carregar o rascunho selecionado.';
+    }
   }
 
   excluiRascunho(id: number): void {
