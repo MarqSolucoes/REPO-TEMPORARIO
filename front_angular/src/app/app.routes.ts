@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/obras/obras.component').then((m) => m.ObrasComponent),
   },
   {
+    path: 'obras/:id',
+    loadComponent: () => import('./pages/obra-detalhe/obra-detalhe.component').then((m) => m.ObraDetalheComponent),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },

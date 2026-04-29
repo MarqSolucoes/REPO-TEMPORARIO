@@ -26,7 +26,7 @@
         <td>{{ obra.id }}</td>
         <td>{{ obra.codigo || '-' }}</td>
         <td>{{ obra.descricao }}</td>
-        <td><button type="button" (click)="editarObra(obra)">Editar</button></td>
+        <td><button type="button" (click)="editarObra(obra)">Editar</button> <a [routerLink]="['/obras', obra.id]">Detalhes</a></td>
       </tr>
     </tbody>
   </table>

@@ -1,0 +1,17 @@
+<div class="obra-detalhe-page">
+  <h1>Detalhes da Obra</h1>
+  <p *ngIf="isLoading">Carregando...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="ok" *ngIf="successMessage">{{ successMessage }}</p>
+
+  <section *ngIf="obra">
+    <p><strong>ID:</strong> {{ obra.id }}</p>
+    <p><strong>Código:</strong> {{ obra.codigo || '-' }}</p>
+
+    <form [formGroup]="detalheForm" (ngSubmit)="salvar()">
+      <label>Descrição <input type="text" formControlName="descricao" /></label>
+      <small class="error" *ngIf="detalheForm.controls.descricao.invalid && detalheForm.controls.descricao.touched">Descrição inválida.</small>
+      <button type="submit">Salvar alterações</button>
+    </form>
+  </section>
+</div>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { ObraResumo } from '../../core/models/obra.models';
@@ -8,7 +9,7 @@ import { ObraPayload, ObrasApiService } from '../../core/services/obras-api.serv
 @Component({
   selector: 'app-obras',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './obras.component.html',
   styleUrl: './obras.component.scss',
 })

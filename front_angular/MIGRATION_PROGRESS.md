@@ -7,7 +7,7 @@
 - [x] Página: Dashboard
 - [x] Página: Login
 - [x] Página: Obras
-- [ ] Página: ObraDetalhe
+- [x] Página: ObraDetalhe
 - [ ] Página: Compras/OrdemCompra
 - [ ] Página: Compras/Cotacao
 - [ ] Página: Compras/Conciliacao
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Página Obras com listagem + cadastro/edição reativos integrados
-NEXT_STEP: Iniciar migração da Página ObraDetalhe
+LAST_COMPLETED_STEP: Página ObraDetalhe iniciada com visualização e edição básica
+NEXT_STEP: Iniciar migração da Página Compras/OrdemCompra
