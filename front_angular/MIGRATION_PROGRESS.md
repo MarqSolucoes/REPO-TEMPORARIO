@@ -5,7 +5,7 @@
 - [x] Configuração de rotas (arquivo base criado)
 - [x] Layout base (componente shell criado)
 - [x] Página: Dashboard
-- [~] Página: Login (estrutura inicial criada)
+- [x] Página: Login
 - [ ] Página: Obras
 - [ ] Página: ObraDetalhe
 - [ ] Página: Compras/OrdemCompra
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Página Dashboard concluída (etapa incremental atual)
-NEXT_STEP: Completar Página Login com integração real de autenticação
+LAST_COMPLETED_STEP: Página Login concluída com autenticação integrada
+NEXT_STEP: Iniciar migração da Página Obras
