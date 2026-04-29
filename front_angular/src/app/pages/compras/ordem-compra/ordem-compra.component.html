@@ -1,0 +1,19 @@
+<div class="ordem-compra-page">
+  <h1>Ordens de Compra</h1>
+  <p *ngIf="isLoading">Carregando...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <table *ngIf="ordens.length > 0; else vazio">
+    <thead><tr><th>ID</th><th>Código</th><th>Descrição</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let ordem of ordens">
+        <td>{{ ordem.id }}</td>
+        <td>{{ ordem.codigo || '-' }}</td>
+        <td>{{ ordem.descricao || '-' }}</td>
+        <td>{{ ordem.status || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #vazio><p>Nenhuma ordem de compra encontrada.</p></ng-template>
+</div>

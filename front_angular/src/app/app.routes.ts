@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/obra-detalhe/obra-detalhe.component').then((m) => m.ObraDetalheComponent),
   },
   {
+    path: 'compras/ordem-compra',
+    loadComponent: () => import('./pages/compras/ordem-compra/ordem-compra.component').then((m) => m.OrdemCompraComponent),
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   },

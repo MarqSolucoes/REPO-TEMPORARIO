@@ -8,7 +8,7 @@
 - [x] Página: Login
 - [x] Página: Obras
 - [x] Página: ObraDetalhe
-- [ ] Página: Compras/OrdemCompra
+- [~] Página: Compras/OrdemCompra (listagem inicial + integração de API)
 - [ ] Página: Compras/Cotacao
 - [ ] Página: Compras/Conciliacao
 - [ ] Página: Financeiro/Entradas
@@ -26,5 +26,5 @@
 - [ ] Página: RH
 - [ ] Página: Error
 
-LAST_COMPLETED_STEP: Página ObraDetalhe iniciada com visualização e edição básica
-NEXT_STEP: Iniciar migração da Página Compras/OrdemCompra
+LAST_COMPLETED_STEP: Página Compras/OrdemCompra iniciada com listagem e integração inicial de API
+NEXT_STEP: Migrar cadastro/ações da Página Compras/OrdemCompra e iniciar Página Compras/Cotacao
