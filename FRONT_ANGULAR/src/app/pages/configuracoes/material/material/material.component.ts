@@ -89,6 +89,14 @@ export class MaterialComponent implements OnInit {
       Swal.fire({ title: 'Descrição inválida', text: '', icon: 'error' });
       return;
     }
+    if (this.material_IdCategoriaMaterial == null) {
+      Swal.fire({ title: 'Selecione uma categoria', text: '', icon: 'error' });
+      return;
+    }
+    if (this.material_IdUnidadeMaterial == null) {
+      Swal.fire({ title: 'Selecione uma unidade', text: '', icon: 'error' });
+      return;
+    }
     this.controle_Salvando = true;
     const obj = {
       Id: this.material_Id,

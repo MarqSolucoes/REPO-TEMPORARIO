@@ -71,6 +71,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('usuarioDTO');
+    document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     this.router.navigate(['/login']);
   }
 }
