@@ -221,34 +221,6 @@ label {
   opacity: 1;
 }
 
-/* Form controls inside modals — !important overrides any inline styles */
-.modal .form-control {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
-}
-
-.modal .form-control:focus {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  color: #fff !important;
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
-}
-
-.modal .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.modal label,
-.modal .form-label,
-.modal .form-check-label {
-  color: #fff;
-}
-
-.modal select.form-control option {
-  background: #1a1a2e;
-  color: #fff;
-}
 
 .modal hr {
   border-color: rgba(255, 255, 255, 0.15);

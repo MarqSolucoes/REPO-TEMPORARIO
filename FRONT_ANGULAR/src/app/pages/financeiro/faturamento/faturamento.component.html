@@ -34,17 +34,17 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label>Data Faturamento</label>
-              <input type="date" class="form-control" [(ngModel)]="modalDataFaturamento_DataFaturamento" style="color:white;background:#1a1a2e">
+              <input type="date" class="form-control" [(ngModel)]="modalDataFaturamento_DataFaturamento">
             </div>
           </div>
           <div *ngIf="!modalDataFaturamento_TipoTotal" class="row mb-3">
             <div class="col-md-6">
               <label>Valor Recebido</label>
-              <input type="number" class="form-control" [(ngModel)]="modalDataFaturamento_ValorRecebido" style="color:white;background:#1a1a2e">
+              <input type="number" class="form-control" [(ngModel)]="modalDataFaturamento_ValorRecebido">
             </div>
             <div class="col-md-6">
               <label>Data Próximo Recebimento</label>
-              <input type="date" class="form-control" [(ngModel)]="modalDataFaturamento_DataProximoRecebimento" style="color:white;background:#1a1a2e">
+              <input type="date" class="form-control" [(ngModel)]="modalDataFaturamento_DataProximoRecebimento">
             </div>
           </div>
           <div *ngIf="modalDataFaturamento_TipoTotal" class="alert alert-info">
@@ -129,47 +129,47 @@
     <div class="row">
       <div class="col-md-3 mb-2">
         <label>Obra</label>
-        <select class="form-control" [(ngModel)]="filtro_ObraSelecionada" style="color:white;background:#1a1a2e">
+        <select class="form-control" [(ngModel)]="filtro_ObraSelecionada">
           <option [ngValue]="null">Todas</option>
           <option *ngFor="let o of filtro_Obras; trackBy: trackByIndex" [ngValue]="o">{{ o.codigo }} — {{ o.cliente?.nomeFantasia }}</option>
         </select>
       </div>
       <div class="col-md-3 mb-2">
         <label>Cliente</label>
-        <select class="form-control" [(ngModel)]="filtro_ClienteSelecionado" style="color:white;background:#1a1a2e">
+        <select class="form-control" [(ngModel)]="filtro_ClienteSelecionado">
           <option [ngValue]="null">Todos</option>
           <option *ngFor="let c of filtro_Clientes; trackBy: trackByIndex" [ngValue]="c">{{ c.nomeFantasia }}</option>
         </select>
       </div>
       <div class="col-md-2 mb-2">
         <label>NF</label>
-        <input class="form-control" [(ngModel)]="filtro_NumeroNF" style="color:white;background:#1a1a2e">
+        <input class="form-control" [(ngModel)]="filtro_NumeroNF">
       </div>
       <div class="col-md-2 mb-2">
         <label>Status</label>
-        <select class="form-control" [(ngModel)]="filtro_StatusFaturamentoSelecionado" style="color:white;background:#1a1a2e">
+        <select class="form-control" [(ngModel)]="filtro_StatusFaturamentoSelecionado">
           <option *ngFor="let s of filtro_StatusFaturamento; trackBy: trackByIndex" [ngValue]="s">{{ s.descricao }}</option>
         </select>
       </div>
       <div class="col-md-2 mb-2">
         <label>Observação</label>
-        <input class="form-control" [(ngModel)]="filtro_Observacao" style="color:white;background:#1a1a2e">
+        <input class="form-control" [(ngModel)]="filtro_Observacao">
       </div>
       <div class="col-md-3 mb-2">
         <label>Fat. Inicial</label>
-        <input type="date" class="form-control" [(ngModel)]="filtro_DataFaturamentoInicial" style="color:white;background:#1a1a2e">
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataFaturamentoInicial">
       </div>
       <div class="col-md-3 mb-2">
         <label>Fat. Final</label>
-        <input type="date" class="form-control" [(ngModel)]="filtro_DataFaturamentoFinal" style="color:white;background:#1a1a2e">
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataFaturamentoFinal">
       </div>
       <div class="col-md-3 mb-2">
         <label>Receb. Inicial</label>
-        <input type="date" class="form-control" [(ngModel)]="filtro_DataRecebimentoInicial" style="color:white;background:#1a1a2e">
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataRecebimentoInicial">
       </div>
       <div class="col-md-3 mb-2">
         <label>Receb. Final</label>
-        <input type="date" class="form-control" [(ngModel)]="filtro_DataRecebimentoFinal" style="color:white;background:#1a1a2e">
+        <input type="date" class="form-control" [(ngModel)]="filtro_DataRecebimentoFinal">
       </div>
       <div class="col-12 mb-2 d-flex gap-2">
         <button class="btn btn-danger mr-2" (click)="limparFiltros()">Limpar</button>
