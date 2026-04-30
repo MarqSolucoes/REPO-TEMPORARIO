@@ -1,1 +1,5 @@
-BACKEND/.vs/ProjectEvaluation/whengenharia.api.projects.v9.bin
+.vs/**
+.angular/**
+
+FRONT_ANGULAR/.angular
+FRONT_ANGULAR/node_modules
