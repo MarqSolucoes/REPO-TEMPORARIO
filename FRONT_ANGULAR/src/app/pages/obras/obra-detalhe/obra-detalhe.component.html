@@ -1,0 +1,15 @@
+<div class="obraDetalhe-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">Detalhe da Obra</h1>
+  <div class="mb-3">
+    <button class="btn btn-outline-secondary" (click)="voltar()">← Voltar</button>
+  </div>
+  <app-widget *ngIf="obra">
+    <p><strong>Nome:</strong> {{ obra.nome }}</p>
+    <p><strong>Descrição:</strong> {{ obra.descricao }}</p>
+    <p><strong>Status:</strong> {{ obra.status }}</p>
+  </app-widget>
+  <app-widget *ngIf="!obra && !isLoading">
+    <p>Obra não encontrada.</p>
+  </app-widget>
+</div>

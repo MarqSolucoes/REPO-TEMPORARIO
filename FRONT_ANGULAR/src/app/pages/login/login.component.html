@@ -1,0 +1,52 @@
+<div class="auth-page">
+  <div class="container">
+    <app-widget class="widget-auth mx-auto" style="background-color: white">
+      <p class="widget-auth-info">
+        <img class="img-fluid" src="assets/logo-wh.png" alt="logo" width="150px" onerror="this.style.display='none'" />
+      </p>
+      <form class="mt" (ngSubmit)="login()">
+        <div class="alert alert-sm alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div class="form-group" style="color: #000000">
+          <label for="usuario">Usuário</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color: #000000">
+                <i class="la la-user text-white"></i>
+              </span>
+            </div>
+            <input id="usuario" class="form-control input-transparent pl-4" type="text" required
+              placeholder="Usuário" [(ngModel)]="usuario" name="usuario"
+              style="color: #000000; background-color: transparent; border: none; border-bottom: #000000 1px solid;" />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="form-group" style="color: #000000">
+          <label for="senha">Senha</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color: #000000">
+                <i class="la la-user text-white"></i>
+              </span>
+            </div>
+            <input id="senha" class="form-control input-transparent pl-4" type="password" required
+              placeholder="Senha" [(ngModel)]="senha" name="senha"
+              style="color: #000000; background-color: transparent; border: none; border-bottom: #000000 1px solid;" />
+          </div>
+        </div>
+
+        <div class="auth-widget-footer" style="text-align: right">
+          <button type="submit" class="btn auth-btn"
+            style="background-color: #fed400; border-color: #000; color: #000; font-weight: bold;">
+            {{ isFetching ? 'Loading...' : 'Acessar' }}
+          </button>
+          <p class="widget-auth-info mt-4"></p>
+        </div>
+      </form>
+    </app-widget>
+  </div>
+  <footer class="auth-footer" style="color: black">
+    WH Engenharia - Desenvolvido por Solinski Corp
+  </footer>
+</div>

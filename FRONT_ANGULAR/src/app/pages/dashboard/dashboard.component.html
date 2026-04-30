@@ -1,0 +1,521 @@
+<div class="dashboard-page">
+  <app-loader [active]="isLoading"></app-loader>
+  <h1 class="page-title">WH Engenharia &nbsp;</h1>
+
+  <div class="widget estiloWidget">
+
+    <!-- ===================== ROW: Solicitação de Compra / Minhas Solicitações ===================== -->
+    <div class="row" *ngIf="usuarioDTO != null && usuarioDTO.globalSolicitacaoCompra">
+      <div class="col-md-6"
+        (click)="modalNovoPedidoCompraTipoPedido_Exibir = true">
+        <div class="dashboard-card">
+          <h5>Solicitação de compra</h5>
+          <i class="fa fa-shopping-cart card-icon"></i>
+        </div>
+      </div>
+      <div class="col-md-6"
+        (click)="abrirModalMinhasSolicitacoes()">
+        <div class="dashboard-card">
+          <h5>Minhas solicitações</h5>
+          <i class="fa fa-list card-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== ROW: Pedido Interno / Meus Pedidos Internos ===================== -->
+    <div class="row" *ngIf="usuarioDTO != null && usuarioDTO.globalPedidoInterno">
+      <div class="col-md-6"
+        (click)="modalNovoPedidoInterno_Exibir = true">
+        <div class="dashboard-card">
+          <h5>Pedido Interno</h5>
+          <i class="fa fa-repeat card-icon"></i>
+        </div>
+      </div>
+      <div class="col-md-6"
+        (click)="modalMeusPedidosInternos_Exibir = true">
+        <div class="dashboard-card">
+          <h5>Meus Pedidos Internos</h5>
+          <i class="fa fa-list card-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== ROW: Aprovações de Cotação / Notas Fiscais ===================== -->
+    <div class="row" *ngIf="usuarioDTO != null">
+      <div class="col-md-6"
+        *ngIf="usuarioDTO.globalAprovaCotacao"
+        (click)="redirecionaAprovarCotacoes()">
+        <div class="dashboard-card">
+          <h5>Aprovações de Cotação</h5>
+          <div class="card-count">{{ modalAprovacaoCotacao_Cotacoes }}</div>
+        </div>
+      </div>
+      <div class="col-md-6"
+        *ngIf="usuarioDTO.globalAprovaNotaFiscal"
+        (click)="modalAprovacaoNF_Exibir = true">
+        <div class="dashboard-card">
+          <h5>Aprovações de Notas Fiscais</h5>
+          <div class="card-count">{{ modalAprovacaoNF_NotasFiscais.length }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== ROW: Aprovações de PI / SC ===================== -->
+    <div class="row" *ngIf="usuarioDTO != null">
+      <div class="col-md-6"
+        *ngIf="usuarioDTO.globalAprovaCotacao"
+        (click)="modalAprovacaoPI_Exibir = true">
+        <div class="dashboard-card">
+          <h5>Aprovações de PI</h5>
+          <div class="card-count">{{ pedidosInternosParaAprovacao.length }}</div>
+        </div>
+      </div>
+      <div class="col-md-6"
+        *ngIf="usuarioDTO.globalAprovaCotacao"
+        (click)="modalAprovacaoSC_Exibir = true">
+        <div class="dashboard-card">
+          <h5>Aprovações de SC</h5>
+          <div class="card-count">{{ solicitacoesCompraParaAprovacao.length }}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =================== MODAL: TIPO NOVA SOLICITAÇÃO COMPRA =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalNovoPedidoCompraTipoPedido_Exibir ? 'block' : 'none'">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nova Solicitação</h5>
+          <button type="button" class="close" (click)="modalNovoPedidoCompraTipoPedido_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Nova Solicitação</span>
+              <h3 class="afm-hero__title">Selecione o tipo de solicitação</h3>
+              <p class="afm-hero__description">Escolha entre materiais ou serviço.</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center" style="gap: 1rem;">
+            <button type="button" class="btn btn-lg btn-outline-primary"
+              (click)="modalNovoPedidoCompraTipoPedido_Exibir = false">
+              <i class="fa fa-cube"></i> Materiais
+            </button>
+            <button type="button" class="btn btn-lg btn-outline-success"
+              (click)="modalNovoPedidoCompraTipoPedido_Exibir = false">
+              <i class="fa fa-wrench"></i> Serviço
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" (click)="modalNovoPedidoCompraTipoPedido_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalNovoPedidoCompraTipoPedido_Exibir"></div>
+
+  <!-- =================== MODAL: MINHAS SOLICITAÇÕES =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalMinhasSolicitacoes_Exibir ? 'block' : 'none'" style="overflow-y: auto;">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Minhas Solicitações</h5>
+          <button type="button" class="close" (click)="modalMinhasSolicitacoes_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Solicitações de Compra</span>
+              <h3 class="afm-hero__title">Minhas Solicitações</h3>
+            </div>
+            <div class="afm-hero__pill">
+              <span>{{ modalMinhasSolicitacoes_Count }}</span>
+              <small>solicitação(ões)</small>
+            </div>
+          </div>
+
+          <!-- Filtros -->
+          <div class="afm-section-card mb-3 p-3 border rounded">
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label>Código</label>
+                <input type="text" class="form-control" [(ngModel)]="modalMinhasSolicitacoes_FiltroCodigo" placeholder="Buscar pelo código" />
+              </div>
+              <div class="col-md-9 mb-3">
+                <label>Título</label>
+                <input type="text" class="form-control" [(ngModel)]="modalMinhasSolicitacoes_FiltroTitulo" placeholder="Buscar pelo título" />
+              </div>
+            </div>
+            <div class="d-flex justify-content-end" style="gap: 0.5rem;">
+              <button class="btn btn-dark" (click)="limparFiltrosMinhasSolicitacoes()">
+                <i class="fa fa-eraser mr-1"></i> Limpar
+              </button>
+              <button class="btn btn-success" (click)="filtrarMinhasSolicitacoes()">
+                <i class="fa fa-search mr-1"></i> Filtrar
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabela de resultados -->
+          <div *ngIf="modalMinhasSolicitacoes_Solicitacoes.length > 0">
+            <div class="table-card table-card--fluid" style="overflow-x: auto;">
+              <table class="estilo-tabela">
+                <thead>
+                  <tr>
+                    <th class="estilo-cabecalho texto-centro">Código</th>
+                    <th class="estilo-cabecalho">Titulo</th>
+                    <th class="estilo-cabecalho texto-centro">Tipo</th>
+                    <th class="estilo-cabecalho texto-centro">Solicitado</th>
+                    <th class="estilo-cabecalho texto-centro">Data entrega</th>
+                    <th class="estilo-cabecalho">Obra</th>
+                    <th class="estilo-cabecalho texto-centro">Valor estimado</th>
+                    <th class="estilo-cabecalho texto-centro">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of modalMinhasSolicitacoes_Solicitacoes; let i = index">
+                    <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+                    <td class="estilo-celula">{{ row.nome }}</td>
+                    <td class="estilo-celula texto-centro">{{ row.servico ? 'Serviço' : 'Material' }}</td>
+                    <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+                    <td class="estilo-celula texto-centro">{{ formataDataSemHora(row.dataEntrega) }}</td>
+                    <td class="estilo-celula">{{ row.idCentroCustoDEF != null ? (row.centroCustoDEF ? row.centroCustoDEF.descricao : '') : ((row.centroCustoObra ? row.centroCustoObra.codigo : '') + ' - ' + (row.centroCustoObra && row.centroCustoObra.cliente ? row.centroCustoObra.cliente.nomeFantasia : '')) }}</td>
+                    <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorEstimado) }}</td>
+                    <td class="estilo-celula texto-centro">{{ (row.statusSolicitacaoCompra ? row.statusSolicitacaoCompra.descricao : '') + (row.motivoCancelamento == null ? '' : ' - ' + row.motivoCancelamento) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Paginação -->
+            <div *ngIf="modalMinhasSolicitacoes_Count > modalMinhasSolicitacoes_Take" class="mt-2 d-flex justify-content-between align-items-center">
+              <span>Exibindo <strong>{{ minhasSolicitacoes_InicioPagina }}</strong> a <strong>{{ minhasSolicitacoes_FimPagina }}</strong> de <strong>{{ modalMinhasSolicitacoes_Count }}</strong></span>
+              <div>
+                <button class="btn btn-sm btn-outline-secondary mr-1" [disabled]="modalMinhasSolicitacoes_PaginaAtual === 1"
+                  (click)="mudarPaginaMinhasSolicitacoes(modalMinhasSolicitacoes_PaginaAtual - 1)">&#8249;</button>
+                <button class="btn btn-sm btn-outline-secondary"
+                  [disabled]="minhasSolicitacoes_FimPagina >= modalMinhasSolicitacoes_Count"
+                  (click)="mudarPaginaMinhasSolicitacoes(modalMinhasSolicitacoes_PaginaAtual + 1)">&#8250;</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="modalMinhasSolicitacoes_Solicitacoes.length === 0" class="text-center mt-3">
+            <i class="fa fa-inbox fa-3x"></i>
+            <p class="mt-2"><strong>Nenhuma solicitação encontrada</strong></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="mr-auto">Total: <strong>{{ modalMinhasSolicitacoes_Count }}</strong> solicitação(ões)</span>
+          <button type="button" class="btn btn-dark" (click)="modalMinhasSolicitacoes_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalMinhasSolicitacoes_Exibir"></div>
+
+  <!-- =================== MODAL: TIPO NOVO PEDIDO INTERNO =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalNovoPedidoInterno_Exibir ? 'block' : 'none'">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Novo Pedido Interno</h5>
+          <button type="button" class="close" (click)="modalNovoPedidoInterno_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Pedido Interno</span>
+              <h3 class="afm-hero__title">Selecione o tipo de pedido interno</h3>
+              <p class="afm-hero__description">Escolha a categoria do pedido para prosseguir com o cadastro.</p>
+            </div>
+          </div>
+          <p class="text-center text-muted">Funcionalidade disponível em breve.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" (click)="modalNovoPedidoInterno_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalNovoPedidoInterno_Exibir"></div>
+
+  <!-- =================== MODAL: MEUS PEDIDOS INTERNOS =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalMeusPedidosInternos_Exibir ? 'block' : 'none'" style="overflow-y: auto;">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Meus Pedidos Internos</h5>
+          <button type="button" class="close" (click)="modalMeusPedidosInternos_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Pedidos Internos</span>
+              <h3 class="afm-hero__title">Acompanhe seus pedidos internos</h3>
+            </div>
+            <div class="afm-hero__pill">
+              <span>{{ modalMeusPedidosInternos_Pedidos.length }}</span>
+              <small>pedido(s)</small>
+            </div>
+          </div>
+          <div *ngIf="modalMeusPedidosInternos_Pedidos.length > 0" style="overflow-x: auto;">
+            <table class="estilo-tabela">
+              <thead>
+                <tr>
+                  <th class="estilo-cabecalho texto-centro">Código</th>
+                  <th class="estilo-cabecalho">Descrição</th>
+                  <th class="estilo-cabecalho">Beneficiário</th>
+                  <th class="estilo-cabecalho texto-centro">Nº Parcelas</th>
+                  <th class="estilo-cabecalho texto-centro">Data da solicitação</th>
+                  <th class="estilo-cabecalho texto-centro">Valor</th>
+                  <th class="estilo-cabecalho texto-centro">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of modalMeusPedidosInternos_Pedidos">
+                  <td class="estilo-celula texto-centro">{{ row.codigoFormatado }}</td>
+                  <td class="estilo-celula">{{ row.descricao }}</td>
+                  <td class="estilo-celula">{{ row.idFornecedorBeneficiario != null ? (row.fornecedorBeneficiario ? row.fornecedorBeneficiario.nomeFantasia : '') : row.idUsuarioBeneficiario != null ? (row.usuarioBeneficiario ? row.usuarioBeneficiario.nome : '') : '' }}</td>
+                  <td class="estilo-celula texto-centro">{{ row.numeroTotalParcelas }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataDataSemHora(row.dataCadastro) }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorTotal) }}</td>
+                  <td class="estilo-celula texto-centro">
+                    <span [ngClass]="{
+                      'badge badge-warning': row.aprovado == null,
+                      'badge badge-success': row.aprovado == true,
+                      'badge badge-danger': row.aprovado == false
+                    }">
+                      {{ row.aprovado == null ? 'Pendente Aprovação' : row.aprovado == true ? 'Aprovado' : 'Reprovado' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="modalMeusPedidosInternos_Pedidos.length === 0" class="text-center mt-3">
+            <i class="fa fa-inbox fa-3x"></i>
+            <p class="mt-2"><strong>Nenhum pedido encontrado</strong></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="mr-auto">Total: <strong>{{ modalMeusPedidosInternos_Pedidos.length }}</strong> pedido(s)</span>
+          <button type="button" class="btn btn-dark" (click)="modalMeusPedidosInternos_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalMeusPedidosInternos_Exibir"></div>
+
+  <!-- =================== MODAL: APROVAÇÃO DE NOTAS FISCAIS =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalAprovacaoNF_Exibir ? 'block' : 'none'" style="overflow-y: auto;">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Aprovação de Notas Fiscais</h5>
+          <button type="button" class="close" (click)="modalAprovacaoNF_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Aprovação</span>
+              <h3 class="afm-hero__title">Notas fiscais pendentes de aprovação</h3>
+            </div>
+            <div class="afm-hero__pill">
+              <span>{{ modalAprovacaoNF_NotasFiscais.length }}</span>
+              <small>nota(s)</small>
+            </div>
+          </div>
+          <div *ngIf="modalAprovacaoNF_NotasFiscais.length > 0" style="overflow-x: auto;">
+            <table class="estilo-tabela">
+              <thead>
+                <tr>
+                  <th class="estilo-cabecalho texto-centro">OC</th>
+                  <th class="estilo-cabecalho texto-centro">Obra</th>
+                  <th class="estilo-cabecalho">Fornecedor</th>
+                  <th class="estilo-cabecalho texto-centro">Valor</th>
+                  <th class="estilo-cabecalho texto-centro">NF</th>
+                  <th class="estilo-cabecalho texto-centro">Valor NF</th>
+                  <th class="estilo-cabecalho texto-centro">Venc. NF</th>
+                  <th class="estilo-cabecalho texto-centro">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of modalAprovacaoNF_NotasFiscais">
+                  <td class="estilo-celula texto-centro">{{ row.pedidoCompraNotaFiscal?.pedidoCompra?.codigo }}</td>
+                  <td class="estilo-celula texto-centro">{{ row.pedidoCompraNotaFiscal?.pedidoCompra?.centroCustoObra?.codigo }}</td>
+                  <td class="estilo-celula">{{ row.pedidoCompraNotaFiscal?.pedidoCompra?.fornecedor?.nomeFantasia }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorPedido) }}</td>
+                  <td class="estilo-celula texto-centro">{{ row.pedidoCompraNotaFiscal?.numeroNotaFiscal }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataMoeda(row.pedidoCompraNotaFiscal?.valor) }}</td>
+                  <td class="estilo-celula texto-centro">{{ row.datasPagamento }}</td>
+                  <td class="estilo-celula texto-centro">
+                    <button type="button" class="btn btn-success btn-sm mr-1" (click)="aprovarReprovarNotaFiscal(row.id, true)">Aprovar</button>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="aprovarReprovarNotaFiscal(row.id, false)">Reprovar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="modalAprovacaoNF_NotasFiscais.length === 0" class="text-center mt-3">
+            <i class="fa fa-check-circle-o fa-3x"></i>
+            <p class="mt-2"><strong>Nenhuma nota fiscal pendente</strong></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="mr-auto">Total pendente: <strong>{{ modalAprovacaoNF_NotasFiscais.length }}</strong> nota(s)</span>
+          <button type="button" class="btn btn-dark" (click)="modalAprovacaoNF_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalAprovacaoNF_Exibir"></div>
+
+  <!-- =================== MODAL: APROVAÇÃO DE PI =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalAprovacaoPI_Exibir ? 'block' : 'none'" style="overflow-y: auto;">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Aprovação de Pedidos Internos</h5>
+          <button type="button" class="close" (click)="modalAprovacaoPI_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Aprovação</span>
+              <h3 class="afm-hero__title">Pedidos internos pendentes de aprovação</h3>
+            </div>
+            <div class="afm-hero__pill">
+              <span>{{ pedidosInternosParaAprovacao.length }}</span>
+              <small>pedido(s)</small>
+            </div>
+          </div>
+          <div *ngIf="pedidosInternosParaAprovacao.length > 0" style="overflow-x: auto;">
+            <table class="estilo-tabela">
+              <thead>
+                <tr>
+                  <th class="estilo-cabecalho texto-centro">Código</th>
+                  <th class="estilo-cabecalho">Descrição</th>
+                  <th class="estilo-cabecalho">Beneficiário</th>
+                  <th class="estilo-cabecalho texto-centro">Valor</th>
+                  <th class="estilo-cabecalho texto-centro">Nº Parcelas</th>
+                  <th class="estilo-cabecalho texto-centro">Data Solicitação</th>
+                  <th class="estilo-cabecalho">Usuário</th>
+                  <th class="estilo-cabecalho texto-centro">Status</th>
+                  <th class="estilo-cabecalho texto-centro">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of pedidosInternosParaAprovacao">
+                  <td class="estilo-celula texto-centro">{{ row.codigoFormatado }}</td>
+                  <td class="estilo-celula">{{ row.descricao }}</td>
+                  <td class="estilo-celula">{{ row.idFornecedorBeneficiario != null ? (row.fornecedorBeneficiario ? row.fornecedorBeneficiario.nomeFantasia : '') : row.idUsuarioBeneficiario != null ? (row.usuarioBeneficiario ? row.usuarioBeneficiario.nome : '') : '' }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorTotal) }}</td>
+                  <td class="estilo-celula texto-centro">{{ row.numeroTotalParcelas }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataDataSemHora(row.dataCadastro) }}</td>
+                  <td class="estilo-celula">{{ row.usuarioCadastro ? row.usuarioCadastro.nome : '' }}</td>
+                  <td class="estilo-celula texto-centro">
+                    <span [ngClass]="{
+                      'badge badge-warning': row.aprovado == null,
+                      'badge badge-success': row.aprovado == true,
+                      'badge badge-danger': row.aprovado == false
+                    }">
+                      {{ row.aprovado == null ? 'Pendente' : row.aprovado ? 'Aprovado' : 'Reprovado' }}
+                    </span>
+                  </td>
+                  <td class="estilo-celula texto-centro">
+                    <button type="button" class="btn btn-success btn-sm mr-1" (click)="aprovarReprovarPI(row.id, true)">Aprovar</button>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="aprovarReprovarPI(row.id, false)">Reprovar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="pedidosInternosParaAprovacao.length === 0" class="text-center mt-3">
+            <i class="fa fa-check-circle-o fa-3x"></i>
+            <p class="mt-2"><strong>Nenhum pedido pendente</strong></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="mr-auto">Total pendente: <strong>{{ pedidosInternosParaAprovacao.length }}</strong> pedido(s)</span>
+          <button type="button" class="btn btn-dark" (click)="modalAprovacaoPI_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalAprovacaoPI_Exibir"></div>
+
+  <!-- =================== MODAL: APROVAÇÃO DE SC =================== -->
+  <div class="modal" tabindex="-1" [style.display]="modalAprovacaoSC_Exibir ? 'block' : 'none'" style="overflow-y: auto;">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Aprovação de Solicitações de Compra</h5>
+          <button type="button" class="close" (click)="modalAprovacaoSC_Exibir = false">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="afm-hero mb-3">
+            <div>
+              <span class="afm-hero__eyebrow">Aprovação</span>
+              <h3 class="afm-hero__title">Solicitações de compra pendentes</h3>
+            </div>
+            <div class="afm-hero__pill">
+              <span>{{ solicitacoesCompraParaAprovacao.length }}</span>
+              <small>solicitação(ões)</small>
+            </div>
+          </div>
+          <div *ngIf="solicitacoesCompraParaAprovacao.length > 0" style="overflow-x: auto;">
+            <table class="estilo-tabela">
+              <thead>
+                <tr>
+                  <th class="estilo-cabecalho texto-centro">Código</th>
+                  <th class="estilo-cabecalho">Usuário solicitante</th>
+                  <th class="estilo-cabecalho texto-centro">Data da solicitação</th>
+                  <th class="estilo-cabecalho texto-centro">Data de entrega</th>
+                  <th class="estilo-cabecalho">Centro de custo</th>
+                  <th class="estilo-cabecalho texto-centro">Valor total estimado</th>
+                  <th class="estilo-cabecalho">Comprador</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of solicitacoesCompraParaAprovacao">
+                  <td class="estilo-celula texto-centro">{{ row.codigo }}</td>
+                  <td class="estilo-celula">{{ row.usuarioCadastro ? row.usuarioCadastro.nome : '' }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataData(row.dataCadastro) }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataDataSemHora(row.dataEntrega) }}</td>
+                  <td class="estilo-celula">{{ row.idCentroCustoDEF != null ? (row.centroCustoDEF ? row.centroCustoDEF.descricao : '') : ((row.centroCustoObra ? row.centroCustoObra.codigo : '') + ' - ' + (row.centroCustoObra?.cliente ? row.centroCustoObra.cliente.nomeFantasia : '')) }}</td>
+                  <td class="estilo-celula texto-centro">{{ formataMoeda(row.valorEstimado) }}</td>
+                  <td class="estilo-celula">{{ row.usuarioComprador ? row.usuarioComprador.nome : '' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="solicitacoesCompraParaAprovacao.length === 0" class="text-center mt-3">
+            <i class="fa fa-check-circle-o fa-3x"></i>
+            <p class="mt-2"><strong>Nenhuma solicitação pendente</strong></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="mr-auto">Total pendente: <strong>{{ solicitacoesCompraParaAprovacao.length }}</strong> solicitação(ões)</span>
+          <button type="button" class="btn btn-dark" (click)="modalAprovacaoSC_Exibir = false">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="modalAprovacaoSC_Exibir"></div>
+</div>

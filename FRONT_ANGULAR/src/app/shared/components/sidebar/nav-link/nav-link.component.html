@@ -1,0 +1,34 @@
+<li *ngIf="!childrenLinks && isHeader && !externalLink" class="headerLink">
+  <a [routerLink]="link" routerLinkActive="active" class="sidebar-link">
+    <span class="icon"><i [class]="fullIconName"></i></span>
+    {{ header }}
+  </a>
+</li>
+
+<li *ngIf="!childrenLinks && isHeader && externalLink" class="headerLink">
+  <a [href]="link" class="sidebar-link">
+    <span class="icon"><i [class]="fullIconName"></i></span>
+    {{ header }}
+  </a>
+</li>
+
+<li *ngIf="childrenLinks" class="headerLink">
+  <a class="sidebar-link" (click)="toggle()" style="cursor:pointer">
+    <span class="icon"><i [class]="fullIconName"></i></span>
+    {{ header }}
+    <i class="fa fa-angle-left ml-auto" [class.fa-angle-down]="isActive || expanded"></i>
+  </a>
+  <ul class="sub-menu" *ngIf="isActive || expanded">
+    <app-nav-link
+      *ngFor="let child of childrenLinks"
+      [header]="child.header"
+      [link]="child.link"
+      [activeItem]="activeItem"
+      [index]="child.index || child.link"
+    ></app-nav-link>
+  </ul>
+</li>
+
+<li *ngIf="!childrenLinks && !isHeader">
+  <a [routerLink]="link" routerLinkActive="active" class="sidebar-link">{{ header }}</a>
+</li>
