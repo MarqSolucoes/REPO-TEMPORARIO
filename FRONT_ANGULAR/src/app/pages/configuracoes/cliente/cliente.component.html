@@ -43,7 +43,10 @@
   <div class="modal" [style.display]="modal_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title">{{ modal_Titulo }}</h5></div>
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modal_Titulo }}</h5>
+          <button type="button" class="close" (click)="modal_Exibir = false"><span>&times;</span></button>
+        </div>
         <div class="modal-body">
           <div class="form-group">
             <label>Razão Social</label>

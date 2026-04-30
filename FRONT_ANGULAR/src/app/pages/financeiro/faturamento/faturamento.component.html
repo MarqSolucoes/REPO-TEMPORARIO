@@ -5,12 +5,12 @@
   <!-- Modal Data Faturamento -->
   <div class="modal fade" [class.show]="modalDataFaturamento_Exibir" [style.display]="modalDataFaturamento_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
             Informar Recebimento — NF {{ modalDataFaturamento_Faturamento?.numeroNF || '—' }}
           </h5>
-          <button class="close text-white" (click)="modalDataFaturamento_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalDataFaturamento_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body" *ngIf="modalDataFaturamento_Faturamento">
           <div class="row mb-3">
@@ -75,10 +75,10 @@
   <!-- Modal Arquivos -->
   <div class="modal fade" [class.show]="modalArquivos_Exibir" [style.display]="modalArquivos_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalArquivos_Titulo }}</h5>
-          <button class="close text-white" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="table-card" *ngIf="(modalArquivos_Arquivos?.length ?? 0) > 0">

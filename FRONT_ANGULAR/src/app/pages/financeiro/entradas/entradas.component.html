@@ -5,10 +5,10 @@
   <!-- Modal Detalhe PI -->
   <div class="modal fade" [class.show]="modalDetalhePI_Exibir" [style.display]="modalDetalhePI_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-xl">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalDetalhePI_Titulo }}</h5>
-          <button type="button" class="close text-white" (click)="modalDetalhePI_Exibir = false"><span>&times;</span></button>
+          <button type="button" class="close" (click)="modalDetalhePI_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body" *ngIf="modalDetalhePI_PI">
           <div class="row mb-3">

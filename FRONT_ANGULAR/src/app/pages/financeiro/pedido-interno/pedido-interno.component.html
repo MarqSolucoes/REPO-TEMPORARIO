@@ -5,10 +5,10 @@
   <!-- Modal Editar Parcela -->
   <div class="modal fade" [class.show]="modalPedidoInternoEdicao_Exibir" [style.display]="modalPedidoInternoEdicao_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Editar Parcela</h5>
-          <button class="close text-white" (click)="modalPedidoInternoEdicao_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalPedidoInternoEdicao_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -34,10 +34,10 @@
   <!-- Modal Parcelas -->
   <div class="modal fade" [class.show]="modalPedidoInterno_Exibir" [style.display]="modalPedidoInterno_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalPedidoInterno_Titulo }}</h5>
-          <button class="close text-white" (click)="modalPedidoInterno_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalPedidoInterno_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="table-card" *ngIf="(modalPedidoInterno_Parcelas?.length ?? 0) > 0">
@@ -82,10 +82,10 @@
   <!-- Modal Arquivos -->
   <div class="modal fade" [class.show]="modalArquivos_Exibir" [style.display]="modalArquivos_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Arquivos</h5>
-          <button class="close text-white" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalArquivos_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="table-card" *ngIf="modalArquivos_Arquivos?.length??0 > 0">

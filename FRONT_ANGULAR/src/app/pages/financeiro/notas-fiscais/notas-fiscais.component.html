@@ -5,10 +5,10 @@
   <!-- Modal Pagamento NF -->
   <div class="modal fade" [class.show]="modalPagamentoNF_Exibir" [style.display]="modalPagamentoNF_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-xl">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalPagamentoNF_titulo }}</h5>
-          <button class="close text-white" (click)="modalPagamentoNF_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalPagamentoNF_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <table class="table table-dark table-sm" style="width:auto">

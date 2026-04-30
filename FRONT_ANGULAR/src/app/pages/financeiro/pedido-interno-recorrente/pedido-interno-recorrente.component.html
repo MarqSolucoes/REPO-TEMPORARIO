@@ -5,10 +5,10 @@
   <!-- Modal Cadastro/Edição -->
   <div class="modal fade" [class.show]="modalPIR_Exibir" [style.display]="modalPIR_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalPIR_Titulo }}</h5>
-          <button class="close text-white" (click)="modalPIR_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalPIR_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">

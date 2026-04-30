@@ -148,9 +148,141 @@ body {
 
 app-widget { display: block; }
 
+/* ===== FORM CONTROLS (dark theme, app-wide) ===== */
+.form-control {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1);
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+select.form-control option {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+label {
+  color: #fff;
+}
+
 /* ===== AUTH PAGE ===== */
 .auth-page { min-height: 100vh; background: #f5f5f5; padding: 20px; }
 .widget-auth { max-width: 420px; margin: 4rem auto 0; padding: 2rem; }
 .widget-auth-info { text-align: center; margin-bottom: 1rem; }
 .auth-footer { text-align: center; margin-top: 2rem; color: black; }
+
+/* ===== DARK MODALS (matching Vue AFM style) ===== */
+.modal-content {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #1a1a1a !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.modal-title {
+  color: #fff;
+  font-weight: 600;
+}
+
+.modal-body {
+  background: #1a1a1a !important;
+  color: #fff;
+}
+
+.modal-footer {
+  background: #1a1a1a !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.modal .close {
+  color: #fff;
+  text-shadow: none;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.modal .close:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+/* Form controls inside modals — !important overrides any inline styles */
+.modal .form-control {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+.modal .form-control:focus {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+}
+
+.modal .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.modal label,
+.modal .form-label,
+.modal .form-check-label {
+  color: #fff;
+}
+
+.modal select.form-control option {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.modal hr {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.modal h6 {
+  color: #fff;
+}
+
+.modal p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.modal .alert-info {
+  background: rgba(23, 162, 184, 0.15);
+  border-color: rgba(23, 162, 184, 0.4);
+  color: #9eeaf9;
+}
+
+.modal .alert-warning {
+  background: rgba(255, 193, 7, 0.15);
+  border-color: rgba(255, 193, 7, 0.4);
+  color: #ffd639;
+}
+
+.modal .alert-danger {
+  background: rgba(220, 53, 69, 0.15);
+  border-color: rgba(220, 53, 69, 0.4);
+  color: #f88;
+}
+
+.modal .card.bg-secondary {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
 

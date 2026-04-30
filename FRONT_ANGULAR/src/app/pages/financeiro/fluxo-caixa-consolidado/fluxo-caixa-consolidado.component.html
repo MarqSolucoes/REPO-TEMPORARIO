@@ -5,10 +5,10 @@
   <!-- Modal Detalhe Dia -->
   <div class="modal fade" [class.show]="modalDetalhe_Exibir" [style.display]="modalDetalhe_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-xl">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalDetalhe_Credito ? 'Detalhes de ' + modalDetalhe_Credito : '' }}</h5>
-          <button class="close text-white" (click)="modalDetalhe_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalDetalhe_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <p *ngIf="modalDetalhe_Dia?.dia">Lançamentos do dia {{ formataData(modalDetalhe_Dia.dia) }}</p>
@@ -54,10 +54,10 @@
   <!-- Modal Saldos Iniciais -->
   <div class="modal fade" [class.show]="modalSaldoInicial_Exibir" [style.display]="modalSaldoInicial_Exibir ? 'block' : 'none'" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Saldos Iniciais</h5>
-          <button class="close text-white" (click)="modalSaldoInicial_Exibir = false"><span>&times;</span></button>
+          <button class="close" (click)="modalSaldoInicial_Exibir = false"><span>&times;</span></button>
         </div>
         <div class="modal-body">
           <!-- Modal Editar Saldo Inicial (nested) -->
